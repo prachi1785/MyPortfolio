@@ -1408,3 +1408,60 @@
   pointer-events: none;
   z-index: 1000;
 }
+
+/* ==========================================
+   MOBILE SCROLL UNLOCK & LAYOUT COHESIVENESS
+   ========================================== */
+
+@media (max-width: 1024px) {
+  /* Unlock scrolling on body, root and app-container level */
+  body, html, #root {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+  
+  .app-container {
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: visible !important;
+    display: block !important;
+  }
+  
+  /* Fix 3D Canvas backdrop as stationary behind flowing content */
+  .canvas-container {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+  }
+  
+  /* Let Title Screen overlay flow naturally */
+  .title-screen-overlay {
+    position: relative !important;
+    height: auto !important;
+    overflow-y: visible !important;
+    display: block !important;
+    pointer-events: auto !important;
+    z-index: 10;
+  }
+}
+
+@media (max-width: 900px) {
+  /* Let Workspace overlay flow naturally */
+  .workspace-overlay {
+    position: relative !important;
+    height: auto !important;
+    overflow-y: visible !important;
+    display: block !important;
+    pointer-events: auto !important;
+    z-index: 20;
+  }
+  
+  /* Stack workspace panels nicely */
+  .workspace-content {
+    height: auto !important;
+    overflow-y: visible !important;
+  }
+}
