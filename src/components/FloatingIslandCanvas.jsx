@@ -28,7 +28,8 @@ export default function FloatingIslandCanvas({ appState }) {
     scene.background = new THREE.Color('#BDE7FF');
     scene.fog = new THREE.FogExp2('#BDE7FF', 0.035);
 
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+    const isPortrait = width < height;
+    const camera = new THREE.PerspectiveCamera(isPortrait ? 65 : 45, width / height, 0.1, 100);
     // Initial Title Screen Camera Position
     camera.position.set(0, 2.5, 10);
     cameraRef.current = camera;
@@ -515,8 +516,15 @@ export default function FloatingIslandCanvas({ appState }) {
       const h = container.clientHeight || window.innerHeight;
 
       cameraRef.current.aspect = w / h;
-      cameraRef.current.updateProjectionMatrix();
+      
+      // Dynamic zoom-out on portrait mobile viewports to prevent island cropping
+      if (w < h) {
+        cameraRef.current.fov = 65;
+      } else {
+        cameraRef.current.fov = 45;
+      }
 
+      cameraRef.current.updateProjectionMatrix();
       rendererRef.current.setSize(w, h);
     };
     window.addEventListener('resize', handleResize);
