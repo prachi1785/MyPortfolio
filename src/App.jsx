@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import FloatingIslandCanvas from './components/FloatingIslandCanvas';
+import React, { useState } from 'react';
+import PixelArtBackground from './components/PixelArtBackground';
 import TitleScreen from './components/TitleScreen';
 import TelemetryWorkspace from './components/TelemetryWorkspace';
 import { playScanSound } from './utils/sound';
@@ -7,14 +7,10 @@ import gsap from 'gsap';
 import './App.css';
 
 function App() {
-  const [appState, setAppState] = useState('TITLE'); // 'TITLE' | 'TRANSITIONING' | 'WORKSPACE'
   const [scanActive, setScanActive] = useState(false);
 
-  const handleStartPortfolio = () => {
-    setAppState('TRANSITIONING');
+  const handleStartScroll = () => {
     setScanActive(true);
-
-    // Play holographic scan sound
     playScanSound();
 
     // Trigger holographic scanner sweep animation on the viewport
@@ -26,16 +22,22 @@ function App() {
         ease: 'power2.inOut',
         onComplete: () => {
           setScanActive(false);
-          setAppState('WORKSPACE');
         }
       }
     );
+
+    // Smoothly scroll down to the workspace navigation dock
+    const workspaceEl = document.getElementById('telemetry-workspace-anchor');
+    if (workspaceEl) {
+      workspaceEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
-    <div className="app-container">
-      {/* Background Stylized 3D Floating Island World */}
-      <FloatingIslandCanvas appState={appState} />
+    <div className="app-container" style={{ overflowY: 'auto', height: '100vh', scrollBehavior: 'smooth' }}>
+      
+      {/* 2D Animated Pixel Background */}
+      <PixelArtBackground />
 
       {/* Retro CTR & Grid Vignette overlays */}
       <div className="scanlines" />
@@ -44,18 +46,18 @@ function App() {
       {/* Hologram sweep scanline (Active during transition) */}
       {scanActive && <div className="hologram-scanline-sweep" />}
 
-      {/* Screen 1: Title Screen */}
-      {appState === 'TITLE' && (
+      {/* Screen Section 1: Title Screen (Takes 100vh height) */}
+      <div className="title-screen-section" style={{ position: 'relative', height: '100vh', width: '100%' }}>
         <TitleScreen 
-          onStart={handleStartPortfolio} 
-          isTransitioning={appState === 'TRANSITIONING'} 
+          onStart={handleStartScroll} 
+          isTransitioning={scanActive} 
         />
-      )}
+      </div>
 
-      {/* Screen 2: Workspace Telemetry panels */}
-      {appState === 'WORKSPACE' && (
-        <TelemetryWorkspace onBack={() => setAppState('TITLE')} />
-      )}
+      {/* Screen Section 2: Workspace Telemetry panels (Scroll Target) */}
+      <div id="telemetry-workspace-anchor" className="workspace-section" style={{ position: 'relative', width: '100%', zIndex: 10 }}>
+        <TelemetryWorkspace />
+      </div>
     </div>
   );
 }

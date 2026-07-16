@@ -1,30 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Home, User, Zap, Folder, Briefcase, Phone, 
-  Terminal, Send, Cpu, Layers, ExternalLink, 
-  CheckCircle2, Compass, Play, Server, Database, GraduationCap
-} from 'lucide-react';
-import gsap from 'gsap';
+import React, { useState, useEffect } from 'react';
 import { playHoverSound, playClickSound, playBeep } from '../utils/sound';
 
-const GithubIcon = ({ size = 16, ...props }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    width={size} 
-    height={size} 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    fill="none" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    {...props}
-  >
-    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-  </svg>
-);
-
-export default function TelemetryWorkspace({ onBack }) {
-  const [activeTab, setActiveTab] = useState('home');
+export default function TelemetryWorkspace() {
   const [hudLogs, setHudLogs] = useState([
     'SYSTEM BOOT: Manipal University Jaipur sector unlocked.',
     'SDE INTERN GATEWAY: Established at PM Publishers.',
@@ -35,89 +12,11 @@ export default function TelemetryWorkspace({ onBack }) {
     { sender: 'bot', text: 'Hello! I am Aditya\'s AI Assistant. Ask about "skills", "education", "experience", "projects", or "contact" to query Aditya\'s career telemetry.' }
   ]);
   const [isTyping, setIsTyping] = useState(false);
-  const [skillLevels, setSkillLevels] = useState({
-    java: 4, js: 5, python: 5, SQL: 4, 
-    react: 5, redux: 4, tailwind: 5, uiux: 4,
-    node: 4, express: 4, postgres: 4, prisma: 5, supabase: 4,
-    git: 5, vscode: 5, postman: 4, docker: 3, agile: 4, claude: 5
-  });
   const [messageTransmitted, setMessageTransmitted] = useState(false);
   const [transmissionLogs, setTransmissionLogs] = useState([]);
-  
-  const navRef = useRef(null);
-  const leftPanelRef = useRef(null);
-  const mainPanelRef = useRef(null);
-  const bottomPanelRef = useRef(null);
 
-  // Active tab click handler
-  const handleTabChange = (tabId) => {
-    if (tabId === activeTab) return;
-    playClickSound();
-    setActiveTab(tabId);
-    
-    // Smooth panel content transition
-    gsap.fromTo('.hud-main-panel-content', 
-      { opacity: 0, y: 15 }, 
-      { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }
-    );
-  };
-
-  // Transition back to Title
-  const handleGoBack = () => {
-    playClickSound();
-    
-    gsap.timeline({
-      onComplete: () => {
-        if (onBack) onBack();
-      }
-    })
-    .to(navRef.current, {
-      y: -150,
-      opacity: 0,
-      duration: 0.6,
-      ease: 'power2.in'
-    })
-    .to(leftPanelRef.current, {
-      x: -150,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'power2.in'
-    }, 0.1)
-    .to(mainPanelRef.current, {
-      scale: 0.9,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'power2.in'
-    }, 0.1)
-    .to(bottomPanelRef.current, {
-      y: 100,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'power2.in'
-    }, 0.1);
-  };
-
-  // HUD panels slide-in animation on mount
+  // Continuous simulated telemetry ticker
   useEffect(() => {
-    gsap.fromTo(navRef.current, 
-      { y: -120, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 0.9, ease: 'back.out(1.5)' }
-    );
-
-    gsap.fromTo(leftPanelRef.current, 
-      { x: -50, opacity: 0 }, 
-      { x: 0, opacity: 1, duration: 0.7, delay: 0.3, ease: 'power2.out' }
-    );
-    gsap.fromTo(mainPanelRef.current, 
-      { scale: 0.95, opacity: 0 }, 
-      { scale: 1, opacity: 1, duration: 0.7, delay: 0.4, ease: 'power2.out' }
-    );
-    gsap.fromTo(bottomPanelRef.current, 
-      { y: 50, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 0.7, delay: 0.5, ease: 'power2.out' }
-    );
-
-    // Continuous system log simulation
     const logInterval = setInterval(() => {
       const logs = [
         'MEM ALLOC: Syncing AI & ML task weights...',
@@ -130,12 +29,35 @@ export default function TelemetryWorkspace({ onBack }) {
       ];
       const randomLog = logs[Math.floor(Math.random() * logs.length)];
       setHudLogs(prev => [randomLog, prev[0], prev[1]].slice(0, 3));
-    }, 4500);
+    }, 5000);
 
     return () => clearInterval(logInterval);
   }, []);
 
-  // Automated chatbot query responder
+  const scrollToSection = (id) => {
+    playClickSound();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
+  // Helper to render health-bar segmented progress slots
+  const renderSegmentedBar = (level, total = 10, type = 'html') => {
+    const blocks = [];
+    for (let i = 1; i <= total; i++) {
+      const filled = i <= level;
+      blocks.push(
+        <div 
+          key={i} 
+          className={`progress-block ${filled ? `filled-${type}` : ''}`} 
+        />
+      );
+    }
+    return <div className="segmented-bar">{blocks}</div>;
+  };
+
+  // Chatbot Query Responder
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (!chatInput.trim() || isTyping) return;
@@ -146,23 +68,23 @@ export default function TelemetryWorkspace({ onBack }) {
     setChatInput('');
     setIsTyping(true);
 
-    let responseText = 'Telemetry query not recognized. Try searching for: "skills", "education", "experience", "projects", or "contact".';
+    let responseText = 'Telemetry query not recognized. Try: "skills", "education", "experience", "projects", or "contact".';
     const lower = userMsg.toLowerCase();
     
     if (lower.includes('skill') || lower.includes('tech') || lower.includes('stack')) {
-      responseText = 'TECHNICAL SKILLS ARCHIVE: languages (Java, JS, Python, SQL), frontend (React.js, Redux, Tailwind), backend (Node, Express, REST APIs), databases (PostgreSQL, Prisma, Supabase), and tools (Git, Docker, Claude Code). Upgrade nodes in the "Skills" tab!';
+      responseText = 'TECHNICAL SKILLS ARCHIVE: languages (Java, JS, Python, SQL), frontend (React.js, Redux, Tailwind), backend (Node, Express, REST APIs), databases (PostgreSQL, Prisma, Supabase), and tools (Git, Docker, Claude Code).';
     } else if (lower.includes('project') || lower.includes('work') || lower.includes('portfolio')) {
-      responseText = 'MISSION LOGS COMPILING: 3 main active sectors: 1) HirePilot AI (ATS resume analyzer with Gemini 2.5 Flash), 2) Sociomart (Marketplace with chat & Clerk auth), 3) PremSweets (Responsive mobile-first page). Analyze them in the "Projects" tab!';
-    } else if (lower.includes('experience') || lower.includes('job') || lower.includes('intern') || lower.includes('pm publishers')) {
-      responseText = 'QUEST PROGRESSION: Aditya is currently an SDE Intern at PM Publishers Pvt. Ltd. (May 2026 - Present), where he develops educational web modules in the MERN stack. More details inside "Experience" tab.';
-    } else if (lower.includes('education') || lower.includes('college') || lower.includes('university') || lower.includes('manipal') || lower.includes('gpa')) {
-      responseText = 'EDUCATION DATABASES: Currently pursuing B.Tech in Computer Science & Engineering (spec. AI & ML) at Manipal University Jaipur (Aug 2023 - May 2027). CGPA: 8.93 / 10.0, twice awarded Dean\'s List honors.';
-    } else if (lower.includes('contact') || lower.includes('email') || lower.includes('hire') || lower.includes('phone')) {
-      responseText = 'ESTABLISHING COMM CHANNEL: Transmit an encrypted signal in the "Contact" tab, or reach directly at 18adityamanu2006@gmail.com.';
+      responseText = 'MISSION LOGS COMPILING: 3 main active sectors: 1) HirePilot AI (ATS resume analyzer with Gemini 2.5 Flash), 2) Sociomart (Marketplace with chat & Clerk auth), 3) PremSweets (Responsive mobile-first page).';
+    } else if (lower.includes('experience') || lower.includes('job') || lower.includes('intern')) {
+      responseText = 'QUEST PROGRESSION: Aditya is currently an SDE Intern at PM Publishers Pvt. Ltd. (May 2026 - Present), developing internal CMS panels using React, Express and Node.';
+    } else if (lower.includes('education') || lower.includes('college') || lower.includes('manipal') || lower.includes('gpa')) {
+      responseText = 'EDUCATION DATABASES: Currently pursuing B.Tech in CSE (spec. AI & ML) at Manipal University Jaipur (Aug 2023 - May 2027). CGPA: 8.93 / 10.0. Dean\'s List honors awarded twice.';
+    } else if (lower.includes('contact') || lower.includes('email') || lower.includes('hire')) {
+      responseText = 'ESTABLISHING COMM CHANNEL: Transmit an encrypted signal in the bottom Contact panel, or reach directly at 18adityamanu2006@gmail.com.';
     } else if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
       responseText = 'OPERATOR CONNECTED. Diagnostics active. What sector would you like to review?';
     } else if (lower.includes('who') || lower.includes('about')) {
-      responseText = 'PROFILE ARCHIVE: Aditya Agrawal is a Computer Science B.Tech student (AI & ML) at MUJ and SDE Intern at PM Publishers who builds print-optimized web engines, real-time chats, and AI tools.';
+      responseText = 'PROFILE ARCHIVE: Aditya Agrawal is a CS B.Tech student (AI & ML) at MUJ and SDE Intern at PM Publishers who builds print-optimized web engines, real-time chats, and AI tools.';
     }
 
     setTimeout(() => {
@@ -188,18 +110,7 @@ export default function TelemetryWorkspace({ onBack }) {
     }, 600);
   };
 
-  // Upgrades level of node path in skills tab
-  const upgradeSkill = (skillKey) => {
-    if (skillLevels[skillKey] >= 5) return;
-    playHoverSound();
-    setSkillLevels(prev => ({
-      ...prev,
-      [skillKey]: prev[skillKey] + 1
-    }));
-    setHudLogs(prev => [`SKILL UPGRADED: Path level for ${skillKey.toUpperCase()} increased!`, prev[0], prev[1]].slice(0, 3));
-  };
-
-  // Transmit form handler
+  // Secure Handshake Form Handler
   const handleTransmitUplink = (e) => {
     e.preventDefault();
     playClickSound();
@@ -247,613 +158,441 @@ export default function TelemetryWorkspace({ onBack }) {
   };
 
   return (
-    <div className="workspace-overlay">
+    <div className="workspace-overlay" style={{ position: 'relative', width: '100%', pointerEvents: 'auto' }}>
       
-      {/* 1. Navigation HUD Header */}
-      <div ref={navRef} className="nav-hud-dock-wrapper" style={{ width: '100%' }}>
-        <header className="hud-header" style={{ position: 'relative', width: '100%', top: 0, padding: '0 0 10px 0', pointerEvents: 'auto' }}>
-          
-          {/* AA Logo */}
-          <div className="hud-logo-box retro-bevel">AA</div>
-
-          {/* Navigation Links */}
-          <nav className="hud-nav-list">
-            <button 
-              className="hud-nav-link"
-              style={{ color: '#C44D4D', marginRight: '16px' }}
-              onClick={handleGoBack}
-              onMouseEnter={playHoverSound}
-            >
-              ◀ TITLE
-            </button>
-            <button 
-              className={`hud-nav-link ${activeTab === 'home' ? 'active' : ''}`}
-              onClick={() => handleTabChange('home')}
-              onMouseEnter={playHoverSound}
-            >
-              HOME
-            </button>
-            <button 
-              className={`hud-nav-link ${activeTab === 'about' ? 'active' : ''}`}
-              onClick={() => handleTabChange('about')}
-              onMouseEnter={playHoverSound}
-            >
-              ABOUT
-            </button>
-            <button 
-              className={`hud-nav-link ${activeTab === 'skills' ? 'active' : ''}`}
-              onClick={() => handleTabChange('skills')}
-              onMouseEnter={playHoverSound}
-            >
-              SKILLS
-            </button>
-            <button 
-              className={`hud-nav-link ${activeTab === 'projects' ? 'active' : ''}`}
-              onClick={() => handleTabChange('projects')}
-              onMouseEnter={playHoverSound}
-            >
-              PROJECTS
-            </button>
-            <button 
-              className={`hud-nav-link ${activeTab === 'experience' ? 'active' : ''}`}
-              onClick={() => handleTabChange('experience')}
-              onMouseEnter={playHoverSound}
-            >
-              EXPERIENCE
-            </button>
-            <button 
-              className={`hud-nav-link ${activeTab === 'contact' ? 'active' : ''}`}
-              onClick={() => handleTabChange('contact')}
-              onMouseEnter={playHoverSound}
-            >
-              CONTACT
-            </button>
-          </nav>
-
-          {/* Coin Counter */}
-          <div className="hud-coin-panel">
-            <div className="hud-coin-icon" />
-            <span className="hud-coin-text">x 90</span>
-          </div>
-        </header>
+      {/* 1. STICKY HUD DOCK NAVIGATION */}
+      <div className="nav-hud-dock-wrapper" style={{ position: 'sticky', top: '16px', width: '100%', display: 'flex', justifyContent: 'center', zIndex: 100, marginBottom: '24px' }}>
+        <nav className="nav-hud-dock">
+          <button className="nav-hud-tab" onClick={() => scrollToSection('telemetry-workspace-anchor')} onMouseEnter={playHoverSound}>
+            <span style={{ fontSize: '14px' }}>🏠</span> HOME
+          </button>
+          <button className="nav-hud-tab" onClick={() => scrollToSection('about-panel-anchor')} onMouseEnter={playHoverSound}>
+            <span style={{ fontSize: '14px' }}>👤</span> ABOUT
+          </button>
+          <button className="nav-hud-tab" onClick={() => scrollToSection('skills-panel-anchor')} onMouseEnter={playHoverSound}>
+            <span style={{ fontSize: '14px' }}>⚔️</span> SKILLS
+          </button>
+          <button className="nav-hud-tab" onClick={() => scrollToSection('projects-panel-anchor')} onMouseEnter={playHoverSound}>
+            <span style={{ fontSize: '14px' }}>🏆</span> PROJECTS
+          </button>
+          <button className="nav-hud-tab" onClick={() => scrollToSection('experience-panel-anchor')} onMouseEnter={playHoverSound}>
+            <span style={{ fontSize: '14px' }}>💼</span> EXPERIENCE
+          </button>
+          <button className="nav-hud-tab" onClick={() => scrollToSection('contact-panel-anchor')} onMouseEnter={playHoverSound}>
+            <span style={{ fontSize: '14px' }}>✉️</span> CONTACT
+          </button>
+        </nav>
       </div>
 
-      {/* 2. Main Dashboard Layout Grid */}
-      <div className="workspace-content">
+      {/* 2. GRID 1: ABOUT ME | SKILLS | PLAYER STATS */}
+      <div className="workspace-content-grid">
         
-        {/* Sidebar Character sheet */}
-        <aside ref={leftPanelRef} className="hud-panel hud-sidebar-panel">
+        {/* Module A: ABOUT ME */}
+        <section id="about-panel-anchor" className="hud-panel panel-pink" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <h2 className="panel-header-title" style={{ fontFamily: 'var(--font-title)', fontSize: '14px', color: 'var(--pink-neon)', margin: '0 0 12px 0' }}>
+            💖 ABOUT ME
+          </h2>
           
-          {/* SVG Character Avatar */}
-          <div className="avatar-container">
-            <svg viewBox="0 0 16 16" className="avatar-img" width="100%" height="100%">
-              {/* Hair/Headphones (Dark Olive) */}
-              <rect x="3" y="2" width="10" height="7" fill="#33452C" />
-              <rect x="2" y="5" width="2" height="4" fill="#33452C" />
-              <rect x="12" y="5" width="2" height="4" fill="#33452C" />
-              {/* Face */}
-              <rect x="4" y="4" width="8" height="8" fill="#F6F1E6" />
-              {/* Glasses */}
-              <rect x="4" y="6" width="3" height="2" fill="#D97A2D" />
-              <rect x="9" y="6" width="3" height="2" fill="#D97A2D" />
-              <rect x="5" y="7" width="1" height="1" fill="#33452C" />
-              <rect x="10" y="7" width="1" height="1" fill="#33452C" />
-              <rect x="7" y="7" width="2" height="1" fill="#D97A2D" />
-              {/* Beard/Mouth */}
-              <rect x="5" y="10" width="6" height="2" fill="#9A6940" />
-              <rect x="7" y="10" width="2" height="1" fill="#33452C" />
-              {/* Torso */}
-              <rect x="3" y="12" width="10" height="4" fill="#D97A2D" />
-              <rect x="6" y="12" width="4" height="4" fill="#F4C34D" />
-              <rect x="7" y="13" width="2" height="3" fill="#33452C" />
-            </svg>
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+            {/* Voxel Avatar Icon Container */}
+            <div style={{ width: '90px', height: '90px', background: '#2A1C4E', border: '3px solid var(--pink-neon)', borderRadius: '10px', flexShrink: 0, padding: '4px' }}>
+              <svg viewBox="0 0 16 16" width="100%" height="100%">
+                <rect x="3" y="2" width="10" height="7" fill="#EB4B89" />
+                <rect x="2" y="5" width="2" height="4" fill="#EB4B89" />
+                <rect x="12" y="5" width="2" height="4" fill="#EB4B89" />
+                <rect x="4" y="4" width="8" height="8" fill="#FCD8A0" />
+                <rect x="4" y="6" width="3" height="2" fill="#33452C" />
+                <rect x="9" y="6" width="3" height="2" fill="#33452C" />
+                <rect x="5" y="7" width="1" height="1" fill="#FFFFFF" />
+                <rect x="10" y="7" width="1" height="1" fill="#FFFFFF" />
+                <rect x="5" y="10" width="6" height="2" fill="#3D2619" />
+                <rect x="3" y="12" width="10" height="4" fill="#28CEE0" />
+                <rect x="6" y="12" width="4" height="4" fill="#FFD147" />
+              </svg>
+            </div>
+            {/* Bio text */}
+            <div style={{ fontSize: '14px', lineHeight: '1.5', fontFamily: 'var(--font-sans)', color: '#D4DCFF' }}>
+              Hey! I'm Aditya, a <strong>Full Stack AI Engineer</strong> and <strong>SDE Intern</strong> who loves building user-friendly web apps and integrating smart generative LLM modules with a mix of logic and creativity.
+              <br /><br />
+              Always learning. Always building. Always leveling up! 🚀
+            </div>
           </div>
 
-          <h2 className="character-title">Aditya Agrawal</h2>
-          <div className="character-class text-retro">SDE Intern (AI & ML)</div>
-          
-          <div className="hud-divider" />
+          <button 
+            className="btn-chat-send" 
+            onClick={() => scrollToSection('experience-panel-anchor')}
+            style={{ width: '100%', marginTop: 'auto', background: 'var(--pink-neon)', border: '2px solid #090314', color: '#FFFFFF', padding: '10px', fontSize: '12px', fontFamily: 'var(--font-title)' }}
+          >
+            READ MORE &gt;
+          </button>
+        </section>
 
-          {/* Core Stats Progress bars */}
-          <div className="character-stats">
-            <div className="stat-row">
-              <div className="stat-label-container">
-                <span>AI & MACHINE LEARNING</span>
-                <span className="stat-value">LVL 95</span>
+        {/* Module B: SKILLS (Segmented Bars) */}
+        <section id="skills-panel-anchor" className="hud-panel panel-cyan" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <h2 className="panel-header-title" style={{ fontFamily: 'var(--font-title)', fontSize: '14px', color: 'var(--cyan-neon)', margin: '0 0 8px 0' }}>
+            ⭐ SKILLS
+          </h2>
+
+          {/* Skill List */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {/* Skill 1 */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', fontFamily: 'var(--font-title)' }}>
+                <span style={{ color: '#E44D26' }}>🔥 HTML / CSS</span>
+                <span>90%</span>
               </div>
-              <div className="stat-bar-outer">
-                <div className="stat-bar-inner" style={{ width: '95%' }} />
-              </div>
+              {renderSegmentedBar(9, 10, 'html')}
             </div>
 
-            <div className="stat-row">
-              <div className="stat-label-container">
-                <span>BACKEND ENG</span>
-                <span className="stat-value">LVL 90</span>
+            {/* Skill 2 */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', fontFamily: 'var(--font-title)' }}>
+                <span style={{ color: '#F7DF1E' }}>⚡ JavaScript</span>
+                <span>85%</span>
               </div>
-              <div className="stat-bar-outer">
-                <div className="stat-bar-inner" style={{ width: '90%' }} />
-              </div>
+              {renderSegmentedBar(8, 10, 'js')}
             </div>
 
-            <div className="stat-row">
-              <div className="stat-label-container">
-                <span>FRONTEND DEV</span>
-                <span className="stat-value">LVL 92</span>
+            {/* Skill 3 */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', fontFamily: 'var(--font-title)' }}>
+                <span style={{ color: '#61DAFB' }}>🌌 React.js</span>
+                <span>85%</span>
               </div>
-              <div className="stat-bar-outer">
-                <div className="stat-bar-inner" style={{ width: '92%' }} />
-              </div>
+              {renderSegmentedBar(8, 10, 'react')}
             </div>
 
-            <div className="stat-row">
-              <div className="stat-label-container">
-                <span>AGILE METHODS</span>
-                <span className="stat-value">LVL 88</span>
+            {/* Skill 4 */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', fontFamily: 'var(--font-title)' }}>
+                <span style={{ color: '#339933' }}>🟢 Node.js</span>
+                <span>80%</span>
               </div>
-              <div className="stat-bar-outer">
-                <div className="stat-bar-inner" style={{ width: '88%' }} />
+              {renderSegmentedBar(8, 10, 'node')}
+            </div>
+
+            {/* Skill 5 */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', fontFamily: 'var(--font-title)' }}>
+                <span style={{ color: '#47A248' }}>🍃 MongoDB</span>
+                <span>75%</span>
               </div>
+              {renderSegmentedBar(7, 10, 'mongo')}
+            </div>
+
+            {/* Skill 6 */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', fontFamily: 'var(--font-title)' }}>
+                <span style={{ color: '#00758F' }}>🐬 SQL</span>
+                <span>70%</span>
+              </div>
+              {renderSegmentedBar(7, 10, 'sql')}
             </div>
           </div>
-        </aside>
+        </section>
 
-        {/* Main Content Telemetry Screen */}
-        <main ref={mainPanelRef} className="hud-panel hud-main-panel">
-          <div className="hud-main-panel-content" style={{ height: '100%' }}>
+        {/* Module C: PLAYER STATS */}
+        <section className="hud-panel panel-purple" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <h2 className="panel-header-title" style={{ fontFamily: 'var(--font-title)', fontSize: '14px', color: 'var(--purple-neon)', margin: '0 0 8px 0' }}>
+            🏆 PLAYER STATS
+          </h2>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '600' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: '#CBBFE6' }}>Experience</span>
+              <span style={{ color: 'var(--yellow-neon)', fontFamily: 'var(--font-title)', fontSize: '10px' }}>2500 XP</span>
+            </div>
             
-            {/* HOME TAB */}
-            {activeTab === 'home' && (
-              <div style={{ height: '100%' }}>
-                <h2 className="panel-header-title text-retro"><Compass size={18} /> Sector 0-1: Diagnostic Core</h2>
-                <div className="home-telemetry-container">
-                  
-                  {/* System Telemetry stats */}
-                  <div className="diagnostic-box" style={{ fontSize: '22px' }}>
-                    <h3 style={{ fontFamily: 'var(--font-retro)', fontSize: '26px', marginBottom: '8px' }}>SYSTEM RESUME TELEMETRY</h3>
-                    <p>ENGINE STATUS: 60 FPS (OPTIMAL)</p>
-                    <p>MAPPED EDUCATION: MANIPAL UNIVERSITY JAIPUR</p>
-                    <p>CGPA METRICS: 8.93 / 10.0</p>
-                    <p>ACTIVE WORKSTATION: SDE INTERN NODE</p>
-                    <p>ACTIVE SECTOR LOGS: HIREPILOT AI, SOCIOMART, PREMSWEETS</p>
-                    <p style={{ marginTop: '8px', color: 'var(--orange-dark)', fontWeight: 'bold' }}>
-                      CHOOSE NAVIGATION TABS IN THE UPPER HUD DOCK TO COMPREHENSIVELY RUN TECHNICAL SECTORS.
-                    </p>
-                  </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: '#CBBFE6' }}>Projects Completed</span>
+              <span style={{ fontFamily: 'var(--font-title)', fontSize: '10px' }}>03</span>
+            </div>
 
-                  {/* Dynamic Chatbot Widget */}
-                  <div className="chatbot-widget">
-                    <div className="chatbot-messages">
-                      {chatMessages.map((msg, i) => (
-                        <div key={i} className={`chat-bubble ${msg.sender}`}>
-                          {msg.text}
-                          {isTyping && i === chatMessages.length - 1 && <span className="blinker" />}
-                        </div>
-                      ))}
-                    </div>
-                    <form className="chatbot-input-container" onSubmit={handleSendMessage}>
-                      <input 
-                        type="text" 
-                        className="chatbot-input" 
-                        placeholder="Query AI assistant (e.g. skills, projects)..." 
-                        value={chatInput}
-                        onChange={(e) => setChatInput(e.target.value)}
-                        disabled={isTyping}
-                      />
-                      <button type="submit" className="btn-chat-send" disabled={isTyping}>
-                        <Send size={14} />
-                      </button>
-                    </form>
-                  </div>
-                </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: '#CBBFE6' }}>Level</span>
+              <span style={{ fontFamily: 'var(--font-title)', fontSize: '10px' }}>1</span>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', gap: '4px' }}>
+              <span style={{ color: '#CBBFE6' }}>Current Mission</span>
+              <span style={{ color: '#FFFFFF', fontSize: '12px', fontFamily: 'var(--font-title)', lineHeight: '1.4' }}>Build Impactful Solutions</span>
+            </div>
+
+            {/* Hearts Bar */}
+            <div style={{ display: 'flex', gap: '6px', margin: '4px 0' }}>
+              <span style={{ color: 'var(--pink-neon)', fontSize: '16px' }}>❤️❤️❤️</span>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', gap: '4px', marginTop: 'auto' }}>
+              <span style={{ color: '#CBBFE6', fontSize: '11px', fontFamily: 'var(--font-title)' }}>EXP TO NEXT LEVEL</span>
+              <div style={{ height: '8px', background: '#1A132C', border: '2px solid #33452C', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: '60%', height: '100%', background: 'var(--purple-neon)' }} />
               </div>
-            )}
-
-            {/* ABOUT TAB */}
-            {activeTab === 'about' && (
-              <div>
-                <h2 className="panel-header-title text-retro"><User size={18} /> Sector 0-2: Agent Profile</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', lineHeight: 1.6, fontFamily: 'var(--font-retro)', fontSize: '22px' }}>
-                  <p>
-                    <strong>Aditya Agrawal</strong> is a Computer Science & Engineering student specializing in <strong>AI & Machine Learning</strong> at Manipal University Jaipur, currently working as a <strong>Software Development Engineer (SDE) Intern</strong> at PM Publishers.
-                  </p>
-                  <p>
-                    He bridges full-stack engineering practices (MERN, SQL, Prisma, Supabase) with deep artificial intelligence integration (structured JSON extraction with Google Gemini 2.5 Flash). Twice awarded the prestigious <strong>Dean's List Award</strong> for his academic success.
-                  </p>
-                  
-                  <div className="hud-divider" />
-                  
-                  {/* Character sheet stats inventory */}
-                  <h3 style={{ fontFamily: 'var(--font-retro)', fontSize: '26px', fontWeight: '800', textTransform: 'uppercase', marginBottom: '12px' }}>Character Stats & Inventory</h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                    <div className="diagnostic-box" style={{ fontSize: '22px' }}>
-                      <p><strong>CLASS:</strong> SDE INTERN / AI & ML MAGE</p>
-                      <p><strong>ACADEMICS:</strong> B.Tech (2023 - 2027)</p>
-                      <p><strong>GPA RATINGS:</strong> 8.93 / 10.0</p>
-                      <p><strong>HONORS:</strong> Dean's List (awarded twice)</p>
-                    </div>
-                    <div className="diagnostic-box" style={{ fontSize: '22px' }}>
-                      <p><strong>WEAPON:</strong> React.js & Redux Toolkit</p>
-                      <p><strong>OFF-HAND:</strong> Node.js, Express & MongoDB (MERN)</p>
-                      <p><strong>ARMOR:</strong> PostgreSQL, Prisma ORM, Supabase</p>
-                      <p><strong>COMPANION:</strong> Git, VS Code, Postman, Docker</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* SKILLS TAB */}
-            {activeTab === 'skills' && (
-              <div>
-                <h2 className="panel-header-title text-retro"><Zap size={18} /> Sector 0-3: Skill Path Tree</h2>
-                <p style={{ fontSize: '13.5px', marginBottom: '16px', color: 'var(--wood-dark)', fontWeight: 'bold' }}>
-                  [OPERATOR INSTRUCTION: CLICK NODES TO ALLOCATE XP COINS AND UPGRADE LEVEL STATS]
-                </p>
-                <div className="skills-tech-tree">
-                  
-                  {/* Category 1: Languages & Frontend */}
-                  <div className="skill-category-block">
-                    <div className="category-title text-retro">Languages & Frontend Nodes</div>
-                    <div className="skills-node-grid">
-                      <button className={`skill-node ${skillLevels.js >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('js')}>
-                        <div className="skill-node-icon"><Cpu /></div>
-                        <div className="skill-node-name">JavaScript</div>
-                        <div className="skill-node-level">LVL {skillLevels.js} / 5</div>
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.python >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('python')}>
-                        <div className="skill-node-icon"><Terminal /></div>
-                        <div className="skill-node-name">Python</div>
-                        <div className="skill-node-level">LVL {skillLevels.python} / 5</div>
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.java >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('java')}>
-                        <div className="skill-node-icon"><Server /></div>
-                        <div className="skill-node-name">Java</div>
-                        <div className="skill-node-level">LVL {skillLevels.java} / 5</div>
-                      </button>
-                      
-                      <button className={`skill-node ${skillLevels.react >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('react')}>
-                        <div className="skill-node-icon"><Play /></div>
-                        <div className="skill-node-name">React.js</div>
-                        <div className="skill-node-level">LVL {skillLevels.react} / 5</div>
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.redux >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('redux')}>
-                        <div className="skill-node-icon"><Layers /></div>
-                        <div className="skill-node-name">Redux Toolkit</div>
-                        <div className="skill-node-level">LVL {skillLevels.redux} / 5</div>
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.tailwind >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('tailwind')}>
-                        <div className="skill-node-icon"><Compass /></div>
-                        <div className="skill-node-name">Tailwind CSS</div>
-                        <div className="skill-node-level">LVL {skillLevels.tailwind} / 5</div>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Category 2: Backend & Databases */}
-                  <div className="skill-category-block">
-                    <div className="category-title text-retro">Backend & Databases</div>
-                    <div className="skills-node-grid">
-                      <button className={`skill-node ${skillLevels.node >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('node')}>
-                        <div className="skill-node-icon"><Server /></div>
-                        <div className="skill-node-name">Node & Express</div>
-                        <div className="skill-node-level">LVL {skillLevels.node} / 5</div>
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.postgres >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('postgres')}>
-                        <div className="skill-node-icon"><Database /></div>
-                        <div className="skill-node-name">PostgreSQL</div>
-                        <div className="skill-node-level">LVL {skillLevels.postgres} / 5</div>
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.prisma >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('prisma')}>
-                        <div className="skill-node-icon"><Layers /></div>
-                        <div className="skill-node-name">Prisma ORM</div>
-                        <div className="skill-node-level">LVL {skillLevels.prisma} / 5</div>
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.supabase >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('supabase')}>
-                        <div className="skill-node-icon"><Database /></div>
-                        <div className="skill-node-name">Supabase</div>
-                        <div className="skill-node-level">LVL {skillLevels.supabase} / 5</div>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Category 3: Tools & Practices */}
-                  <div className="skill-category-block">
-                    <div className="category-title text-retro">Tools & Best Practices</div>
-                    <div className="skills-node-grid">
-                      <button className={`skill-node ${skillLevels.git >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('git')}>
-                        <div className="skill-node-icon"><Cpu /></div>
-                        <div className="skill-node-name">Git & GitHub</div>
-                        <div className="skill-node-level">LVL {skillLevels.git} / 5</div>
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.docker >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('docker')}>
-                        <div className="skill-node-icon"><Cpu /></div>
-                        <div className="skill-node-name">Docker</div>
-                        <div className="skill-node-level">LVL {skillLevels.docker} / 5</div>
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.postman >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('postman')}>
-                        <div className="skill-node-icon"><Terminal /></div>
-                        <div className="skill-node-name">Postman APIs</div>
-                        <div className="skill-node-level">LVL {skillLevels.postman} / 5</div>
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.agile >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('agile')}>
-                        <div className="skill-node-icon"><Compass /></div>
-                        <div className="skill-node-name">Agile Scrum</div>
-                        <div className="skill-node-level">LVL {skillLevels.agile} / 5</div>
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.claude >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('claude')}>
-                        <div className="skill-node-icon"><Terminal /></div>
-                        <div className="skill-node-name">Claude Code</div>
-                        <div className="skill-node-level">LVL {skillLevels.claude} / 5</div>
-                      </button>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            )}
-
-            {/* PROJECTS TAB */}
-            {activeTab === 'projects' && (
-              <div>
-                <h2 className="panel-header-title text-retro"><Folder size={18} /> Sector 0-4: Mission Select</h2>
-                <div className="projects-grid">
-                  
-                  {/* Project 1 */}
-                  <div className="project-card" style={{ height: 'auto', minHeight: '260px' }}>
-                    <div>
-                      <div className="project-header">
-                        <span className="project-mission-badge text-retro">MISSION 01</span>
-                      </div>
-                      <h3 className="project-title">HirePilot AI – Resume Optimizer</h3>
-                      <p className="project-desc">AI-powered platform analyzing resume job-description alignment. Computes keyword gaps and rewrites resume bullet points using Gemini 2.5 Flash JSON STAR extraction. Features a print-optimized ATS PDF rendering engine.</p>
-                    </div>
-                    <div style={{ marginTop: '12px' }}>
-                      <div className="project-tags">
-                        <span className="project-tag">Gemini 2.5</span>
-                        <span className="project-tag">React 19</span>
-                        <span className="project-tag">TypeScript</span>
-                        <span className="project-tag">Prisma</span>
-                      </div>
-                      <div className="project-links" style={{ marginTop: '8px' }}>
-                        <a href="https://github.com/adityaagrawall/HirePilot-AI.git" target="_blank" rel="noreferrer" className="project-link-btn"><GithubIcon size={12} /> Code</a>
-                        <a href="https://gethirepilot-ai.vercel.app" target="_blank" rel="noreferrer" className="project-link-btn"><ExternalLink size={12} /> Live</a>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Project 2 */}
-                  <div className="project-card" style={{ height: 'auto', minHeight: '260px' }}>
-                    <div>
-                      <div className="project-header">
-                        <span className="project-mission-badge text-retro">MISSION 02</span>
-                      </div>
-                      <h3 className="project-title">Sociomart – Media Marketplace</h3>
-                      <p className="project-desc">Full-stack account trading marketplace with real-time chat systems, seller analytical dashboards, role-based Clerk authentication control, and Redux data states.</p>
-                    </div>
-                    <div style={{ marginTop: '12px' }}>
-                      <div className="project-tags">
-                        <span className="project-tag">React.js</span>
-                        <span className="project-tag">Express</span>
-                        <span className="project-tag">PostgreSQL</span>
-                        <span className="project-tag">Clerk</span>
-                      </div>
-                      <div className="project-links" style={{ marginTop: '8px' }}>
-                        <a href="https://github.com/adityaagrawall/SocioMart-full-stack.git" target="_blank" rel="noreferrer" className="project-link-btn"><GithubIcon size={12} /> Code</a>
-                        <a href="https://socio-mart.vercel.app" target="_blank" rel="noreferrer" className="project-link-btn"><ExternalLink size={12} /> Live</a>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Project 3 */}
-                  <div className="project-card" style={{ height: 'auto', minHeight: '260px' }}>
-                    <div>
-                      <div className="project-header">
-                        <span className="project-mission-badge text-retro">MISSION 03</span>
-                      </div>
-                      <h3 className="project-title">PremSweets – Business Website</h3>
-                      <p className="project-desc">Responsive brand website with dynamic galleries and validator contact forms. Optimized mobile-first assets achieving a 95+ Google PageSpeed score.</p>
-                    </div>
-                    <div style={{ marginTop: '12px' }}>
-                      <div className="project-tags">
-                        <span className="project-tag">HTML5</span>
-                        <span className="project-tag">CSS3</span>
-                        <span className="project-tag">JS</span>
-                        <span className="project-tag">Responsive</span>
-                      </div>
-                      <div className="project-links" style={{ marginTop: '8px' }}>
-                        <a href="https://github.com/adityaagrawall/PremSweets.git" target="_blank" rel="noreferrer" className="project-link-btn"><GithubIcon size={12} /> Code</a>
-                        <a href="https://prem-sweets.vercel.app/" target="_blank" rel="noreferrer" className="project-link-btn"><ExternalLink size={12} /> Live</a>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            )}
-
-            {/* EXPERIENCE TAB */}
-            {activeTab === 'experience' && (
-              <div>
-                <h2 className="panel-header-title text-retro"><Briefcase size={18} /> Sector 0-5: Completed Quests</h2>
-                <div className="experience-timeline">
-                  
-                  {/* Job 1 */}
-                  <div className="experience-node">
-                    <div className="experience-node-point" />
-                    <div className="experience-header">
-                      <div>
-                        <span className="experience-role">Software Development Engineer (SDE) Intern</span>
-                        <span style={{ margin: '0 8px', color: 'var(--wood)' }}>•</span>
-                        <span className="experience-company">PM Publishers Pvt. Ltd. (Hybrid)</span>
-                      </div>
-                      <span className="experience-date text-retro">MAY 2026 - PRESENT</span>
-                    </div>
-                    <p className="experience-desc">
-                      Developing internal MERN content management modules. Optimizing Express RESTful endpoints, scaling queries, and building dashboards in Agile deployments.
-                    </p>
-                  </div>
-
-                  {/* Co-curricular 1 */}
-                  <div className="experience-node">
-                    <div className="experience-node-point" style={{ backgroundColor: 'var(--gold)' }} />
-                    <div className="experience-header">
-                      <div>
-                        <span className="experience-role">HR Director</span>
-                        <span style={{ margin: '0 8px', color: 'var(--wood)' }}>•</span>
-                        <span className="experience-company">Cyber Space Club, MUJ</span>
-                      </div>
-                      <span className="experience-date text-retro">AUG 2025 - MAY 2026</span>
-                    </div>
-                    <p className="experience-desc">
-                      Led club HR strategies, coordinates technical task distributions, and managed recruitments for a 100+ member student technical organization.
-                    </p>
-                  </div>
-
-                  {/* Co-curricular 2 */}
-                  <div className="experience-node">
-                    <div className="experience-node-point" style={{ backgroundColor: 'var(--stone)' }} />
-                    <div className="experience-header">
-                      <div>
-                        <span className="experience-role">Joint Head</span>
-                        <span style={{ margin: '0 8px', color: 'var(--wood)' }}>•</span>
-                        <span className="experience-company">Cyber Space Club, MUJ</span>
-                      </div>
-                      <span className="experience-date text-retro">MAY 2024 - APR 2025</span>
-                    </div>
-                    <p className="experience-desc">
-                      Co-led operations, organized technical events, hackathons, and curated workshops for technical student club clusters.
-                    </p>
-                  </div>
-
-                  {/* Education Node */}
-                  <div className="experience-node" style={{ borderColor: 'var(--gold)' }}>
-                    <div className="experience-node-point" style={{ backgroundColor: 'var(--orange)', borderRadius: '0' }} />
-                    <div className="experience-header">
-                      <div>
-                        <span className="experience-role" style={{ color: 'var(--orange-dark)' }}>B.Tech in Computer Science & Engineering (AI & ML)</span>
-                        <span style={{ margin: '0 8px', color: 'var(--wood)' }}>•</span>
-                        <span className="experience-company">Manipal University Jaipur</span>
-                      </div>
-                      <span className="experience-date text-retro">AUG 2023 - MAY 2027</span>
-                    </div>
-                    <p className="experience-desc">
-                      Focusing on Machine Learning, Deep Learning, and Full-Stack Engineering. CGPA: <strong>8.93 / 10.0</strong>. Honors: Twice awarded Dean's List Award.
-                    </p>
-                  </div>
-
-                </div>
-              </div>
-            )}
-
-            {/* CONTACT TAB */}
-            {activeTab === 'contact' && (
-              <div>
-                <h2 className="panel-header-title text-retro"><Phone size={18} /> Sector 0-6: Establish Link</h2>
-                <div className="contact-container">
-                  
-                  {/* Left Column: Social Links */}
-                  <div className="contact-info-card">
-                    <a href="mailto:18adityamanu2006@gmail.com" className="contact-method">
-                      <div className="contact-icon-wrapper"><Server size={18} /></div>
-                      <div className="contact-method-text">
-                        <h4>DIRECT EMAIL</h4>
-                        <p>18adityamanu2006@gmail.com</p>
-                      </div>
-                    </a>
-
-                    <a href="https://github.com/adityaagrawall" target="_blank" rel="noreferrer" className="contact-method">
-                      <div className="contact-icon-wrapper"><GithubIcon size={18} /></div>
-                      <div className="contact-method-text">
-                        <h4>GITHUB UPLINK</h4>
-                        <p>github.com/adityaagrawall</p>
-                      </div>
-                    </a>
-
-                    <a href="https://www.linkedin.com/in/aditya-agrawal-ab5979288" target="_blank" rel="noreferrer" className="contact-method">
-                      <div className="contact-icon-wrapper"><Compass size={18} /></div>
-                      <div className="contact-method-text">
-                        <h4>LINKEDIN SECTOR</h4>
-                        <p>linkedin.com/in/aditya-agrawal-ab5979288</p>
-                      </div>
-                    </a>
-                  </div>
-
-                  {/* Right Column: Encrypted Form */}
-                  <div className="hud-panel" style={{ padding: '16px', background: 'rgba(51, 69, 44, 0.05)', boxShadow: 'none' }}>
-                    {!messageTransmitted ? (
-                      <form className="contact-form-panel" onSubmit={handleTransmitUplink}>
-                        <div className="form-group">
-                          <label>SENDER NAME</label>
-                          <input required name="senderName" type="text" className="form-control" placeholder="Identify operator..." />
-                        </div>
-                        <div className="form-group">
-                          <label>EMAIL ID</label>
-                          <input required name="senderEmail" type="email" className="form-control" placeholder="your@email.com" />
-                        </div>
-                        <div className="form-group">
-                          <label>MESSAGE ENVELOPE</label>
-                          <textarea required name="senderMessage" rows="3" className="form-control" placeholder="Type transmission payload..."></textarea>
-                        </div>
-                        <button type="submit" className="btn-transmit text-retro">
-                          TRANSMIT UPLINK
-                        </button>
-                      </form>
-                    ) : (
-                      <div style={{ fontFamily: 'var(--font-retro)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--grass-light)' }}>
-                          <CheckCircle2 size={18} /> SIGNAL UPLINK OPENED
-                        </div>
-                        <div style={{ background: 'var(--dark-olive)', color: 'var(--grass-light)', padding: '12px', borderRadius: '4px', height: '140px', overflowY: 'auto' }}>
-                          {transmissionLogs.map((log, i) => (
-                            <p key={i} style={{ fontSize: '15px', marginBottom: '4px' }}>&gt; {log}</p>
-                          ))}
-                          {transmissionLogs.length < 5 && <span className="blinker" />}
-                        </div>
-                        <button 
-                          style={{ background: 'var(--stone)', border: '2px solid var(--dark-olive)', padding: '6px', borderRadius: '4px', marginTop: '12px', fontFamily: 'var(--font-sans)', fontWeight: 'bold' }} 
-                          onClick={() => setMessageTransmitted(false)}
-                        >
-                          TRANSMIT NEW SIGNAL
-                        </button>
-                      </div>
-                    )}
-                  </div>
-
-                </div>
-              </div>
-            )}
-
+              <span style={{ color: 'var(--yellow-neon)', alignSelf: 'flex-end', fontSize: '10px', fontFamily: 'var(--font-title)' }}>1500 XP</span>
+            </div>
           </div>
-        </main>
-
-        {/* Bottom Panel */}
-        <footer ref={bottomPanelRef} className="hud-panel hud-bottom-panel">
-          <div className="system-logs text-retro">
-            {hudLogs.map((log, i) => (
-              <span key={i} style={{ opacity: 1 - i * 0.35, marginRight: '24px' }}>
-                &gt; {log}
-              </span>
-            ))}
-          </div>
-          <div className="system-stat-badge text-retro">
-            <span className="system-status-indicator" />
-            ONLINE
-          </div>
-        </footer>
+        </section>
 
       </div>
+
+      {/* 3. GRID 2: FEATURED PROJECTS (FULL WIDTH CAROUSEL CARD) */}
+      <div className="workspace-content-grid" style={{ gridTemplateColumns: '1fr' }}>
+        <section id="projects-panel-anchor" className="hud-panel panel-purple featured-projects-fullwidth">
+          <h2 className="panel-header-title" style={{ fontFamily: 'var(--font-title)', fontSize: '14px', color: 'var(--purple-neon)', margin: '0 0 20px 0' }}>
+            🎮 FEATURED PROJECTS
+          </h2>
+
+          {/* Cards container */}
+          <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+            
+            {/* Project 1: HirePilot AI */}
+            <div className="project-card" style={{ background: '#130B2D', border: '3px solid #33452C', borderRadius: '12px', padding: '16px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '270px' }}>
+              <div className="project-new-ribbon" style={{ position: 'absolute', top: '10px', left: '-5px', background: 'var(--pink-neon)', color: '#FFF', fontSize: '9px', fontFamily: 'var(--font-title)', padding: '2px 8px', transform: 'rotate(-5deg)', boxShadow: '2px 2px 0px #000' }}>
+                NEW
+              </div>
+              <div style={{ marginTop: '16px' }}>
+                <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '12px', color: 'var(--cyan-neon)', marginBottom: '8px' }}>HirePilot AI</h3>
+                <p style={{ fontSize: '13px', color: '#D4DCFF', lineHeight: '1.5', fontFamily: 'var(--font-sans)' }}>
+                  ATS Resume Optimizer comparing profiles against job descriptions. Identifies keyword gaps and suggests bullets utilizing Gemini 2.5 Flash.
+                </p>
+              </div>
+              <div style={{ marginTop: '16px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '12px' }}>
+                  <span style={{ fontSize: '10px', padding: '2px 6px', border: '1px solid #EB4B89', borderRadius: '4px', color: '#EB4B89' }}>Gemini AI</span>
+                  <span style={{ fontSize: '10px', padding: '2px 6px', border: '1px solid #28CEE0', borderRadius: '4px', color: '#28CEE0' }}>React</span>
+                  <span style={{ fontSize: '10px', padding: '2px 6px', border: '1px solid #8E52DC', borderRadius: '4px', color: '#8E52DC' }}>PDF Engine</span>
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <a href="https://github.com/adityaagrawall/HirePilot-AI.git" target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: '#2A1C4E', color: '#FFF', padding: '6px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '12px', textDecoration: 'none' }}>Code</a>
+                  <a href="https://gethirepilot-ai.vercel.app" target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: '#EB4B89', color: '#FFF', padding: '6px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '12px', textDecoration: 'none' }}>Live</a>
+                </div>
+              </div>
+            </div>
+
+            {/* Project 2: SocioMart */}
+            <div className="project-card" style={{ background: '#130B2D', border: '3px solid #33452C', borderRadius: '12px', padding: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '270px' }}>
+              <div>
+                <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '12px', color: 'var(--cyan-neon)', marginBottom: '8px' }}>SocioMart</h3>
+                <p style={{ fontSize: '13px', color: '#D4DCFF', lineHeight: '1.5', fontFamily: 'var(--font-sans)' }}>
+                  A full-stack social account marketplace featuring real-time chats, merchant charts, role auth controls, and Clerk database webhooks.
+                </p>
+              </div>
+              <div style={{ marginTop: '16px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '12px' }}>
+                  <span style={{ fontSize: '10px', padding: '2px 6px', border: '1px solid #EB4B89', borderRadius: '4px', color: '#EB4B89' }}>Postgres</span>
+                  <span style={{ fontSize: '10px', padding: '2px 6px', border: '1px solid #28CEE0', borderRadius: '4px', color: '#28CEE0' }}>Express</span>
+                  <span style={{ fontSize: '10px', padding: '2px 6px', border: '1px solid #8E52DC', borderRadius: '4px', color: '#8E52DC' }}>Clerk</span>
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <a href="https://github.com/adityaagrawall/SocioMart-full-stack.git" target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: '#2A1C4E', color: '#FFF', padding: '6px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '12px', textDecoration: 'none' }}>Code</a>
+                  <a href="https://socio-mart.vercel.app" target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: '#EB4B89', color: '#FFF', padding: '6px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '12px', textDecoration: 'none' }}>Live</a>
+                </div>
+              </div>
+            </div>
+
+            {/* Project 3: PremSweets */}
+            <div className="project-card" style={{ background: '#130B2D', border: '3px solid #33452C', borderRadius: '12px', padding: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '270px' }}>
+              <div>
+                <h3 style={{ fontFamily: 'var(--font-title)', fontSize: '12px', color: 'var(--cyan-neon)', marginBottom: '8px' }}>PremSweets</h3>
+                <p style={{ fontSize: '13px', color: '#D4DCFF', lineHeight: '1.5', fontFamily: 'var(--font-sans)' }}>
+                  Interactive mobile-first landing website built for a confectionery outlet, optimized for load times and scoring 95+ PageSpeed.
+                </p>
+              </div>
+              <div style={{ marginTop: '16px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '12px' }}>
+                  <span style={{ fontSize: '10px', padding: '2px 6px', border: '1px solid #EB4B89', borderRadius: '4px', color: '#EB4B89' }}>HTML5</span>
+                  <span style={{ fontSize: '10px', padding: '2px 6px', border: '1px solid #28CEE0', borderRadius: '4px', color: '#28CEE0' }}>CSS3</span>
+                  <span style={{ fontSize: '10px', padding: '2px 6px', border: '1px solid #8E52DC', borderRadius: '4px', color: '#8E52DC' }}>Mobile UI</span>
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <a href="https://github.com/adityaagrawall/PremSweets.git" target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: '#2A1C4E', color: '#FFF', padding: '6px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '12px', textDecoration: 'none' }}>Code</a>
+                  <a href="https://prem-sweets.vercel.app" target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: '#EB4B89', color: '#FFF', padding: '6px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '12px', textDecoration: 'none' }}>Live</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      </div>
+
+      {/* 4. GRID 3: EXPERIENCE QUEST LOG (LEFT) & CONTACT HANDSHAKE (RIGHT) */}
+      <div className="workspace-content-grid" style={{ gridTemplateColumns: '1.2fr 0.8fr' }}>
+        
+        {/* Experience Quests Card */}
+        <section id="experience-panel-anchor" className="hud-panel panel-pink" style={{ padding: '24px' }}>
+          <h2 className="panel-header-title" style={{ fontFamily: 'var(--font-title)', fontSize: '14px', color: 'var(--pink-neon)', margin: '0 0 20px 0' }}>
+            ⚔️ QUEST LOG
+          </h2>
+
+          <div className="experience-timeline">
+            
+            {/* Quest 1 */}
+            <div className="experience-node">
+              <div className="experience-node-point" style={{ background: 'var(--pink-neon)' }} />
+              <div className="experience-header">
+                <div>
+                  <span className="experience-role" style={{ color: '#FFF', fontWeight: 'bold' }}>Software Development Engineer (SDE) Intern</span>
+                  <span style={{ margin: '0 8px', color: '#EB4B89' }}>•</span>
+                  <span className="experience-company">PM Publishers Pvt. Ltd.</span>
+                </div>
+                <span className="experience-date text-retro" style={{ color: '#28CEE0' }}>MAY 2026 - PRESENT</span>
+              </div>
+              <p className="experience-desc" style={{ color: '#D4DCFF', marginTop: '6px' }}>
+                Developing internal modular modules, tuning Express REST routers, and coordinating releases using Agile Scrum frameworks.
+              </p>
+            </div>
+
+            {/* Quest 2 */}
+            <div className="experience-node">
+              <div className="experience-node-point" style={{ background: 'var(--yellow-neon)' }} />
+              <div className="experience-header">
+                <div>
+                  <span className="experience-role" style={{ color: '#FFF', fontWeight: 'bold' }}>HR Director</span>
+                  <span style={{ margin: '0 8px', color: '#FFD147' }}>•</span>
+                  <span className="experience-company">Cyber Space Club, MUJ</span>
+                </div>
+                <span className="experience-date text-retro" style={{ color: '#28CEE0' }}>AUG 2025 - MAY 2026</span>
+              </div>
+              <p className="experience-desc" style={{ color: '#D4DCFF', marginTop: '6px' }}>
+                Directed human resource configurations, managed recruitment tasks, and led operations for a 100+ student body.
+              </p>
+            </div>
+
+            {/* Quest 3 */}
+            <div className="experience-node">
+              <div className="experience-node-point" style={{ background: 'var(--purple-neon)' }} />
+              <div className="experience-header">
+                <div>
+                  <span className="experience-role" style={{ color: '#FFF', fontWeight: 'bold' }}>B.Tech CS Engineering (AI & ML)</span>
+                  <span style={{ margin: '0 8px', color: '#8E52DC' }}>•</span>
+                  <span className="experience-company">Manipal University Jaipur</span>
+                </div>
+                <span className="experience-date text-retro" style={{ color: '#28CEE0' }}>AUG 2023 - MAY 2027</span>
+              </div>
+              <p className="experience-desc" style={{ color: '#D4DCFF', marginTop: '6px' }}>
+                Specialized algorithms focusing on ML and full-stack patterns. CGPA: 8.93 / 10.0. Dean's List Awardee (honored twice).
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+        {/* Contact Dispatch Form Card */}
+        <section id="contact-panel-anchor" className="hud-panel panel-cyan" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <h2 className="panel-header-title" style={{ fontFamily: 'var(--font-title)', fontSize: '14px', color: 'var(--cyan-neon)', margin: '0 0 10px 0' }}>
+            🛰️ CONTACT UPLINK
+          </h2>
+
+          {!messageTransmitted ? (
+            <form onSubmit={handleTransmitUplink} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <label style={{ fontSize: '11px', fontFamily: 'var(--font-title)', color: '#CBBFE6' }}>SENDER NAME</label>
+                <input required name="senderName" type="text" className="form-control" placeholder="Operator callsign..." style={{ width: '100%', background: '#130B2D', borderColor: '#33452C' }} />
+              </div>
+
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <label style={{ fontSize: '11px', fontFamily: 'var(--font-title)', color: '#CBBFE6' }}>SENDER EMAIL</label>
+                <input required name="senderEmail" type="email" className="form-control" placeholder="Routing frequency..." style={{ width: '100%', background: '#130B2D', borderColor: '#33452C' }} />
+              </div>
+
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <label style={{ fontSize: '11px', fontFamily: 'var(--font-title)', color: '#CBBFE6' }}>MESSAGE CODES</label>
+                <textarea required name="senderMessage" rows="3" className="form-control" placeholder="Type transmission..." style={{ width: '100%', background: '#130B2D', borderColor: '#33452C' }}></textarea>
+              </div>
+
+              <button 
+                type="submit" 
+                className="btn-transmit" 
+                style={{ width: '100%', background: 'var(--cyan-neon)', border: '2px solid #090314', color: '#000', padding: '10px', fontSize: '12px', fontFamily: 'var(--font-title)', cursor: 'pointer' }}
+              >
+                TRANSMIT SIGNALS
+              </button>
+            </form>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', height: '100%' }}>
+              <div className="transmission-terminal" style={{ flex: 1, background: '#090314', border: '2px solid var(--cyan-neon)', padding: '12px', fontFamily: 'var(--font-retro)', fontSize: '18px', color: 'var(--cyan-neon)', overflowY: 'auto' }}>
+                {transmissionLogs.map((log, i) => (
+                  <div key={i} style={{ marginBottom: '8px' }}>&gt;&gt; {log}</div>
+                ))}
+              </div>
+              <button 
+                onClick={() => setMessageTransmitted(false)} 
+                className="btn-chat-send"
+                style={{ width: '100%', background: 'var(--cyan-neon)', color: '#000', padding: '8px', fontSize: '12px', fontFamily: 'var(--font-title)' }}
+              >
+                DISPATCH NEW
+              </button>
+            </div>
+          )}
+
+          {/* Social connections */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 'auto', borderTop: '2px solid #1C1236', paddingTop: '16px' }}>
+            <a href="https://github.com/adityaagrawall" target="_blank" rel="noreferrer" className="nav-hud-tab" style={{ padding: '6px 12px', fontSize: '12px' }}>Github</a>
+            <a href="https://www.linkedin.com/in/aditya-agrawal-ab5979288" target="_blank" rel="noreferrer" className="nav-hud-tab" style={{ padding: '6px 12px', fontSize: '12px' }}>LinkedIn</a>
+          </div>
+        </section>
+
+      </div>
+
+      {/* 5. DIAGNOSTICS TERMINAL (HOME CHAT) */}
+      <div className="workspace-content-grid" style={{ gridTemplateColumns: '1fr' }}>
+        <section className="hud-panel panel-pink" style={{ padding: '24px' }}>
+          <h2 className="panel-header-title" style={{ fontFamily: 'var(--font-title)', fontSize: '14px', color: 'var(--pink-neon)', margin: '0 0 16px 0' }}>
+            🎮 CHATBOT COMPANION
+          </h2>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '20px' }}>
+            {/* Terminal info */}
+            <div className="diagnostic-box" style={{ fontSize: '18px', fontFamily: 'var(--font-retro)' }}>
+              <h3 style={{ fontFamily: 'var(--font-retro)', fontSize: '22px' }}>SYSTEM LOGS</h3>
+              {hudLogs.map((log, i) => (
+                <p key={i} style={{ color: i === 0 ? 'var(--cyan-neon)' : '#CBBFE6' }}>&gt; {log}</p>
+              ))}
+            </div>
+
+            {/* Chatbot container */}
+            <div className="chatbot-widget" style={{ height: '240px', background: '#090314', border: '2px solid var(--pink-neon)' }}>
+              <div className="chatbot-messages">
+                {chatMessages.map((msg, i) => (
+                  <div key={i} className={`chat-bubble ${msg.sender}`}>
+                    {msg.text}
+                    {isTyping && i === chatMessages.length - 1 && <span className="blinker" />}
+                  </div>
+                ))}
+              </div>
+              <form className="chatbot-input-container" onSubmit={handleSendMessage}>
+                <input 
+                  type="text" 
+                  className="chatbot-input" 
+                  placeholder="Ask about skills, projects, contact..." 
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  disabled={isTyping}
+                  style={{ background: '#130B2D', borderColor: '#33452C' }}
+                />
+                <button type="submit" className="btn-chat-send" disabled={isTyping} style={{ background: 'var(--pink-neon)', color: '#FFF' }}>
+                  Send
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* 6. BOTTOM PIXEL GRASS FOOTER */}
+      <footer style={{ marginTop: '64px', borderTop: '4px solid #33452C' }}>
+        <div style={{ height: '16px', background: '#76C45F', borderBottom: '4px solid #5BA34D' }} />
+        <div style={{ background: '#24160E', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+          <span style={{ fontSize: '12px', fontFamily: 'var(--font-sans)', color: '#CBBFE6' }}>
+            © 2026 Aditya Agrawal | Crafted with 💜 and lots of ☕
+          </span>
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <a href="https://github.com/adityaagrawall" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', background: '#130B2D', border: '2px solid #EB4B89', borderRadius: '8px', color: '#EB4B89', textDecoration: 'none', fontWeight: 'bold' }}>G</a>
+            <a href="https://www.linkedin.com/in/aditya-agrawal-ab5979288" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', background: '#130B2D', border: '2px solid #28CEE0', borderRadius: '8px', color: '#28CEE0', textDecoration: 'none', fontWeight: 'bold' }}>L</a>
+          </div>
+        </div>
+      </footer>
+
     </div>
   );
 }

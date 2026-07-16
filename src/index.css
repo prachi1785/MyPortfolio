@@ -1,37 +1,31 @@
 /* Design System and Global Styles for Aditya Agrawal's 3D Portfolio */
 
 :root {
-  /* Color Palette (Soft Daylight Colors) */
-  --sky-light: #BDE7FF;
-  --sky-dark: #9FD5FF;
-  --grass-light: #76C45F;
-  --grass-dark: #5BA34D;
-  --stone: #CFC7BA;
-  --wood: #9A6940;
-  --wood-dark: #6E4726;
-  --gold: #F4C34D;
-  --gold-light: #F7D279;
-  --orange: #D97A2D;
-  --orange-dark: #AC5B1B;
-  --cream: #F6F1E6;
-  --dark-olive: #33452C;
-  --white: #FFFFFF;
-
+  /* Color Palette (Neon 2D Pixel Theme) */
+  --sky-light: #1B0F33;       /* Indigo Night */
+  --sky-dark: #0C051D;        /* Midnight Space */
+  --panel-bg: rgba(14, 8, 32, 0.93);
+  --pink-neon: #EB4B89;
+  --cyan-neon: #28CEE0;
+  --purple-neon: #8E52DC;
+  --yellow-neon: #FFD147;
+  --cream: #0E0820;           /* Background base */
+  --dark-olive: #FFFFFF;      /* High contrast white text */
+  --white: #160B30;           /* Input active background */
+  --stone: #2A1C4E;           /* Badge background */
+  
   /* Typography */
-  --font-sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Outfit', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
   --font-retro: 'VT323', monospace;
   --font-title: 'Press Start 2P', monospace;
 
-  /* Layout */
-  --border-radius-sm: 6px;
-  --border-radius-md: 12px;
+  /* Layout & Shadows */
+  --border-radius-sm: 8px;
+  --border-radius-md: 14px;
   --border-radius-lg: 24px;
-  --shadow-sm: 0 4px 6px -1px rgba(51, 69, 44, 0.1), 0 2px 4px -1px rgba(51, 69, 44, 0.06);
-  --shadow-md: 0 10px 15px -3px rgba(51, 69, 44, 0.15), 0 4px 6px -2px rgba(51, 69, 44, 0.05);
-  --shadow-lg: 0 20px 25px -5px rgba(51, 69, 44, 0.2), 0 10px 10px -5px rgba(51, 69, 44, 0.1);
-  --shadow-retro: 0 8px 0px 0px rgba(51, 69, 44, 0.9);
-  --shadow-retro-pressed: 0 2px 0px 0px rgba(51, 69, 44, 0.9);
+  --shadow-retro: 0 8px 0px 0px #090314;
+  --shadow-retro-pressed: 0 2px 0px 0px #090314;
 }
 
 * {
@@ -43,19 +37,19 @@
 }
 
 body {
-  background-color: var(--cream);
+  background-color: #0C051D;
   color: var(--dark-olive);
   font-family: var(--font-body);
-  overflow: hidden;
+  overflow-x: hidden;
   width: 100vw;
-  height: 100vh;
   user-select: none;
-  /* Glowing pixel cursor */
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="8" height="8" fill="%23F4C34D" stroke="%2333452C" stroke-width="2"/><rect x="2" y="2" width="4" height="4" fill="%23FFF"/></svg>') 4 4, auto;
+  /* Cyan pixel cursor */
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="8" height="8" fill="%2328CEE0" stroke="%23000000" stroke-width="2"/><rect x="2" y="2" width="4" height="4" fill="%23FFF"/></svg>') 4 4, auto;
 }
 
 input, textarea, button, select, a {
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="8" height="8" fill="%23D97A2D" stroke="%2333452C" stroke-width="2"/><rect x="2" y="2" width="4" height="4" fill="%23FFF"/></svg>') 4 4, pointer;
+  /* Pink pixel cursor for interactive elements */
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="8" height="8" fill="%23EB4B89" stroke="%23000000" stroke-width="2"/><rect x="2" y="2" width="4" height="4" fill="%23FFF"/></svg>') 4 4, pointer;
 }
 
 /* Custom Scrollbar for Retro Console / Terminal blocks */
