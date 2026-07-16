@@ -872,28 +872,28 @@ export default function TelemetryWorkspace({ onBack }) {
       {/* Global Project Details Overlay Modal */}
       {selectedProject && (
         <div className="project-overlay-modal" onClick={() => setSelectedProject(null)} style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(9, 3, 20, 0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, pointerEvents: 'auto' }}>
-          <div className="project-modal-content panel-cyan" onClick={(e) => e.stopPropagation()} style={{ border: '3px solid var(--cyan-neon)', background: '#0D061E', padding: '32px', borderRadius: '12px', width: '90%', maxWidth: '500px', boxSizing: 'border-box', position: 'relative', boxShadow: '0 0 16px rgba(40, 206, 224, 0.5)' }}>
-            <button className="project-modal-close" onClick={() => setSelectedProject(null)} style={{ background: 'none', border: 'none', color: 'var(--cyan-neon)', fontSize: '16px', position: 'absolute', top: '16px', right: '16px', cursor: 'pointer', fontFamily: 'var(--font-title)' }}>
+          <div className="project-modal-content panel-cyan" onClick={(e) => e.stopPropagation()} style={{ border: '3px solid var(--cyan-neon)', background: '#0D061E', padding: '48px', borderRadius: '12px', width: '95%', maxWidth: '800px', boxSizing: 'border-box', position: 'relative', boxShadow: '0 0 24px rgba(40, 206, 224, 0.6)' }}>
+            <button className="project-modal-close" onClick={() => setSelectedProject(null)} style={{ background: 'none', border: 'none', color: 'var(--cyan-neon)', fontSize: '20px', position: 'absolute', top: '24px', right: '24px', cursor: 'pointer', fontFamily: 'var(--font-title)' }}>
               [X]
             </button>
-            <div className="project-header" style={{ marginBottom: '12px' }}>
-              <span className="project-mission-badge text-retro">MISSION {selectedProject.mission}</span>
+            <div className="project-header" style={{ marginBottom: '16px' }}>
+              <span className="project-mission-badge text-retro" style={{ fontSize: '12px', padding: '4px 8px' }}>MISSION {selectedProject.mission}</span>
             </div>
-            <h3 className="project-modal-title" style={{ fontFamily: 'var(--font-title)', fontSize: '14px', color: 'var(--cyan-neon)', marginBottom: '16px', textTransform: 'uppercase' }}>{selectedProject.title}</h3>
-            <p className="project-modal-desc" style={{ fontSize: '13.5px', color: '#D4DCFF', lineHeight: '1.6', fontFamily: 'var(--font-sans)', marginBottom: '20px' }}>
+            <h3 className="project-modal-title" style={{ fontFamily: 'var(--font-title)', fontSize: '20px', color: 'var(--cyan-neon)', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '1px' }}>{selectedProject.title}</h3>
+            <p className="project-modal-desc" style={{ fontSize: '15.5px', color: '#D4DCFF', lineHeight: '1.7', fontFamily: 'var(--font-sans)', marginBottom: '24px' }}>
               {selectedProject.description}
             </p>
-            <div className="project-modal-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '24px' }}>
+            <div className="project-modal-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '32px' }}>
               {selectedProject.tags.map((tag, idx) => (
-                <span key={idx} className="project-tag" style={{ fontSize: '10.5px' }}>{tag}</span>
+                <span key={idx} className="project-tag" style={{ fontSize: '12px', padding: '4px 10px' }}>{tag}</span>
               ))}
             </div>
-            <div className="project-modal-links" style={{ display: 'flex', gap: '12px' }}>
-              <a href={selectedProject.codeUrl} target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: '#1C1236', color: '#FFF', padding: '10px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '12px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-                <GithubIcon size={12} /> Code
+            <div className="project-modal-links" style={{ display: 'flex', gap: '16px' }}>
+              <a href={selectedProject.codeUrl} target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: '#1C1236', color: '#FFF', padding: '14px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '14px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold' }}>
+                <GithubIcon size={16} /> Code
               </a>
-              <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: 'var(--cyan-neon)', color: '#000', padding: '10px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '12px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-                <ExternalLink size={12} /> Live
+              <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: 'var(--cyan-neon)', color: '#000', padding: '14px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '14px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold' }}>
+                <ExternalLink size={16} /> Live
               </a>
             </div>
           </div>

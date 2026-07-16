@@ -113,15 +113,15 @@ export default function TitleScreen({ onStart, isTransitioning }) {
         </h1>
 
         {/* Roles/Skills tagline */}
-        <div className="title-roles-tagline" style={{ fontFamily: 'var(--font-title)', fontSize: '10px', color: '#FFFFFF', textShadow: '2px 2px 0px #000', letterSpacing: '0.5px', marginBottom: '8px', textAlign: 'center' }}>
-          FULL STACK AI ENGINEER • SDE INTERN
+        <div className="title-roles-tagline" style={{ fontFamily: 'var(--font-title)', fontSize: '10px', color: '#FFFFFF', textShadow: '2px 2px 0px #000', letterSpacing: '1px', marginBottom: '8px', textAlign: 'center' }}>
+          FULL STACK DEVELOPER & BUSINESS ANALYST
         </div>
-
+ 
         {/* Creative Description */}
-        <div className="title-desc-tagline" style={{ fontFamily: 'var(--font-sans)', fontWeight: '600', fontSize: '14px', color: '#CBBFE6', textShadow: '1px 1px 2px #000', marginBottom: '32px', textAlign: 'center' }}>
-          Building digital experiences. Solving real world problems.
+        <div className="title-desc-tagline" style={{ fontFamily: 'var(--font-sans)', fontWeight: '600', fontSize: '14px', color: '#CBBFE6', textShadow: '1px 1px 2px #000', marginBottom: '32px', textAlign: 'center', maxWidth: '420px', lineHeight: '1.4' }}>
+          Building digital experiences and solving real world problems with code and insight.
         </div>
-
+ 
         {/* Chunky START Button */}
         <button
           className="btn-start-chunky"
@@ -132,10 +132,10 @@ export default function TitleScreen({ onStart, isTransitioning }) {
           }}
           onMouseEnter={playHoverSound}
           disabled={isTransitioning}
-          style={{ width: '220px', height: '64px', fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
+          style={{ width: '260px', height: '64px', fontSize: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', background: 'var(--yellow-neon)', color: '#000', border: '3px solid #000', cursor: 'pointer' }}
         >
-          <div className="start-play-icon" style={{ borderLeftColor: '#FFFFFF' }} />
-          START
+          <div className="start-play-icon" style={{ borderLeftColor: '#000' }} />
+          START JOURNEY
         </button>
 
         {/* PRESS START TO BEGIN down guide */}

@@ -10,7 +10,7 @@ function App() {
   const [appState, setAppState] = useState('TITLE'); // 'TITLE' | 'TRANSITIONING' | 'WORKSPACE'
   const [scanActive, setScanActive] = useState(false);
 
-  const handleStartPortfolio = () => {
+  const handleStartJourney = () => {
     setAppState('TRANSITIONING');
     setScanActive(true);
 
@@ -33,26 +33,26 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      {/* 2D Animated Pixel Background */}
+    <div className="app-container" style={{ overflow: 'hidden', height: '100vh' }}>
+      {/* 2D Animated Sunset Pixel Background */}
       <PixelArtBackground />
 
-      {/* Retro CTR & Grid Vignette overlays */}
-      <div className="scanlines" />
-      <div className="hologram-grid" />
+      {/* Retro CRT & Grid Vignette overlays */}
+      <div className="scanlines" style={{ position: 'fixed', pointerEvents: 'none', zIndex: 100 }} />
+      <div className="hologram-grid" style={{ position: 'fixed', pointerEvents: 'none', zIndex: 100 }} />
 
       {/* Hologram sweep scanline (Active during transition) */}
-      {scanActive && <div className="hologram-scanline-sweep" />}
+      {scanActive && <div className="hologram-scanline-sweep" style={{ zIndex: 101 }} />}
 
       {/* Screen 1: Title Screen */}
       {appState === 'TITLE' && (
         <TitleScreen 
-          onStart={handleStartPortfolio} 
+          onStart={handleStartJourney} 
           isTransitioning={appState === 'TRANSITIONING'} 
         />
       )}
 
-      {/* Screen 2: Workspace Telemetry panels */}
+      {/* Screen 2: Workspace Telemetry panels (Tabbed) */}
       {appState === 'WORKSPACE' && (
         <TelemetryWorkspace onBack={() => setAppState('TITLE')} />
       )}

@@ -4,16 +4,16 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(to bottom, #0C051D 0%, #1B0F33 100%);
+  background: linear-gradient(180deg, #1A0D36 0%, #B03C5D 45%, #E65A4E 75%, #F5AE56 100%);
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
 }
 
-/* 1. Star Twinkling Animation */
+/* 1. Stars twinks */
 @keyframes twinkle {
   0%, 100% { opacity: 0.2; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
 }
 
 .sky-stars-layer {
@@ -21,40 +21,53 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 60%;
+  height: 40%;
 }
 
 .pixel-star {
   position: absolute;
   font-family: monospace;
   font-size: 14px;
-  color: #CBBFE6;
+  color: #FFE57F;
   animation: twinkle infinite ease-in-out;
   user-select: none;
 }
 
-/* 2. Puffy Voxel Clouds drifting */
+/* Crescent moon location */
+.pixel-moon {
+  position: absolute;
+  top: 8%;
+  right: 12%;
+  z-index: 2;
+  animation: float-crescent 4s infinite ease-in-out;
+}
+
+@keyframes float-crescent {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* 2. Puffy clouds drifting */
 @keyframes drift {
-  0% { transform: translateX(-150px); }
+  0% { transform: translateX(-200px); }
   100% { transform: translateX(100vw); }
 }
 
 .clouds-layer {
   position: absolute;
-  top: 10%;
+  top: 15%;
   left: 0;
   width: 100%;
-  height: 30%;
-  opacity: 0.25;
+  height: 20%;
+  opacity: 0.2;
 }
 
 .pixel-cloud {
   position: absolute;
-  background: #A073E5; /* purple cloud texture */
+  background: #E87E6B;
   box-shadow: 
-    16px 0 0 #A073E5, 32px 0 0 #A073E5, -16px 0 0 #A073E5,
-    0 16px 0 #7A4CB9, 16px 16px 0 #7A4CB9, 32px 16px 0 #7A4CB9,
-    0 -16px 0 #C19EFA, 16px -16px 0 #C19EFA;
+    16px 0 0 #E87E6B, 32px 0 0 #E87E6B, -16px 0 0 #E87E6B,
+    0 16px 0 #B54F42, 16px 16px 0 #B54F42, 32px 16px 0 #B54F42;
   height: 16px;
   width: 48px;
   animation: drift infinite linear;
@@ -62,195 +75,201 @@
 
 .cloud-1 {
   top: 10%;
-  animation-duration: 45s;
+  animation-duration: 50s;
 }
 
 .cloud-2 {
-  top: 40%;
-  animation-duration: 75s;
+  top: 50%;
+  animation-duration: 80s;
   transform: scale(0.8);
-  opacity: 0.7;
 }
 
-.cloud-3 {
-  top: 25%;
-  animation-duration: 60s;
-  transform: scale(1.2);
-  opacity: 0.9;
-}
-
-/* 3. Night City Skyline at bottom */
+/* 3. Sunset City Skyline */
 .city-skyline {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 25vh;
+  height: 35vh;
   z-index: 1;
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
-/* 4. Voxel platforms */
-.pixel-platform {
+/* 4. Left side: Streetlamp post & Welcome Sign */
+.streetlamp-container {
   position: absolute;
-  z-index: 2;
-  box-shadow: 
-    inset 0 4px 0 #5BA34D, /* grass top light shadow */
-    0 8px 0 #24160E; /* platform ground depth block */
+  bottom: 40px;
+  left: 5%;
+  z-index: 3;
 }
 
-/* Left Platform positioning */
-.left-platform {
-  bottom: 45%;
-  left: 10%;
-  width: 180px;
-  height: 36px;
-  background: #76C45F; /* grass green top */
-  border: 4px solid var(--dark-olive, #33452C);
-  border-bottom-width: 8px;
+.streetlamp-post {
+  display: block;
 }
 
-/* Right floating platforms */
-.right-floating-platform {
-  top: 30%;
-  right: 12%;
-  width: 80px;
-  height: 20px;
-  background: #76C45F;
-  border: 3px solid var(--dark-olive, #33452C);
-  border-bottom-width: 6px;
-  animation: hover-star-platform 3s infinite ease-in-out;
-}
-
-.right-crt-platform {
-  bottom: 45%;
-  right: 10%;
-  width: 120px;
-  height: 28px;
-  background: #76C45F;
-  border: 4px solid var(--dark-olive, #33452C);
-  border-bottom-width: 6px;
-}
-
-/* 5. Flag Swaying */
-@keyframes flagSway {
-  0%, 100% { transform: skewY(0deg) rotateY(0deg); }
-  50% { transform: skewY(4deg) rotateY(15deg); }
-}
-
-.heart-flag-container {
+.lamp-glow-radial {
   position: absolute;
-  top: -80px;
-  left: 15px;
+  top: -10px;
+  left: -20px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 209, 71, 0.5) 0%, rgba(255, 209, 71, 0.1) 50%, transparent 70%);
+  animation: pulse-glow 2s infinite alternate;
+}
+
+@keyframes pulse-glow {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+
+/* Signboard post */
+.portfolio-signpost-board {
+  position: absolute;
+  bottom: 40px;
+  left: 11%;
+  z-index: 3;
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
 }
 
-.flag-pole {
+.sign-board-text {
+  background: #24160E;
+  border: 3px solid #130B2D;
+  padding: 6px 12px;
+  font-size: 8px;
+  color: #FFE57F;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px #000;
+  line-height: 1.5;
+}
+
+.sign-board-leg {
   width: 6px;
-  height: 80px;
-  background: #CFC7BA;
-  border: 2px solid #33452C;
+  height: 32px;
+  background: #24160E;
+  border: 3px solid #130B2D;
+  border-top: none;
 }
 
-.heart-flag-fabric {
-  transform-origin: left center;
-  animation: flagSway 2.5s infinite ease-in-out;
-  border: 2px solid #33452C;
-  border-left: none;
-  margin-top: 4px;
+/* 5. Mid-Left Platform & boy stand */
+.character-ground-platform {
+  position: absolute;
+  bottom: 40px;
+  left: 17%;
+  z-index: 3;
 }
 
-/* 6. Character Idle Bobbing Stand animation */
-@keyframes bob {
+.pixel-character-boy {
+  animation: bob-character 1.6s infinite ease-in-out;
+}
+
+@keyframes bob-character {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(3px); }
 }
 
-.pixel-character-aditya {
+/* 6. Right Side Building Facade */
+.building-facade-container {
   position: absolute;
-  top: -92px;
-  left: 55px;
-  animation: bob 1.8s infinite ease-in-out;
+  bottom: 0;
+  right: 0;
+  width: 250px;
+  height: 65vh;
+  background: #130B2D;
+  border-left: 4px solid #1C0F38;
+  z-index: 3;
+  box-shadow: inset 4px 0 0 rgba(0,0,0,0.15);
 }
 
-/* 7. Hover and glowing elements (Star, CRT) */
-@keyframes starHover {
-  0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
-  50% { transform: translateY(-12px) scale(1.15) rotate(15deg); }
-}
-
-.floating-star-glow {
-  font-size: 28px;
+.building-window {
   position: absolute;
-  top: -45px;
-  left: 20px;
-  animation: starHover 2.2s infinite ease-in-out;
-  filter: drop-shadow(0 0 8px #FFD147);
-  user-select: none;
+  width: 24px;
+  height: 24px;
+  background: #1C1236;
+  border: 3px solid #130B2D;
+  border-radius: 4px;
 }
 
-@keyframes hover-star-platform {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+.window-lit-1 {
+  top: 15%;
+  left: 20%;
+  background: #FFE57F;
+  box-shadow: 0 0 10px rgba(255, 229, 127, 0.4);
 }
 
-/* CRT monitor case styling */
-.crt-monitor-case {
+.window-lit-2 {
+  top: 40%;
+  left: 60%;
+  background: #FFE57F;
+  box-shadow: 0 0 10px rgba(255, 229, 127, 0.4);
+}
+
+/* Black cat sitting on roof edge */
+.building-cat {
   position: absolute;
-  top: -55px;
+  top: -24px;
   left: 30px;
-  width: 56px;
-  height: 52px;
-  background: #EB4B89; /* pink case from screenshot */
-  border: 3px solid #33452C;
-  border-radius: 8px;
-  box-shadow: inset -4px -4px 0 rgba(0,0,0,0.15), 0 4px 0 rgba(0,0,0,0.2);
+  animation: cat-tail 2.2s infinite ease-in-out;
+}
+
+@keyframes cat-tail {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(3deg) translateY(-1px); }
+}
+
+/* Vertical labels container */
+.building-vertical-signboards {
+  position: absolute;
+  top: 10%;
+  right: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  gap: 16px;
 }
 
-.crt-screen {
-  width: 42px;
-  height: 34px;
-  background: #12131C;
-  border: 3px solid #33452C;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  box-shadow: inset 0 0 6px rgba(40, 206, 224, 0.4);
-}
-
-.crt-code-symbol {
+.vertical-box {
+  width: 90px;
+  padding: 6px;
+  background: #1C0F38;
+  border: 2px solid #E65A4E;
+  color: #E65A4E;
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
-  color: #28CEE0; /* Cyan glow symbol */
-  animation: pulse-screen 1s infinite alternate;
+  font-size: 8px;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: 0 0 6px #E65A4E;
+  text-transform: uppercase;
 }
 
-.crt-monitor-stand {
-  position: absolute;
-  bottom: -4px;
-  left: 18px;
-  width: 20px;
-  height: 4px;
-  background: #C44D4D;
-  border: 2px solid #33452C;
-  border-top: none;
-}
-
-@keyframes pulse-screen {
-  0% { opacity: 0.6; }
-  100% { opacity: 1; }
-}
-
-/* Responsive adjustments */
+/* Responsive constraints: Hide building & signpost details on small viewports */
 @media (max-width: 1024px) {
-  .left-platform, .right-floating-platform, .right-crt-platform {
-    display: none; /* Hide floating platforms on mobile screens to save space */
+  .building-facade-container {
+    width: 140px;
+  }
+  .vertical-box {
+    width: 70px;
+    font-size: 7px;
+    padding: 4px;
+  }
+  .portfolio-signpost-board {
+    display: none;
+  }
+  .character-ground-platform {
+    left: 24%;
+  }
+}
+
+@media (max-width: 768px) {
+  .building-facade-container {
+    display: none; /* Hide facade on phone sizes to make name titles fit cleanly */
+  }
+  .streetlamp-container {
+    left: 8%;
+  }
+  .character-ground-platform {
+    left: 35%;
   }
 }
