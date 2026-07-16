@@ -5,7 +5,7 @@ import {
   CheckCircle2, Compass, Play, Server, Database, GraduationCap
 } from 'lucide-react';
 import gsap from 'gsap';
-import { playHoverSound, playClickSound, playBeep } from '../utils/sound';
+import { playHoverSound, playClickSound, playBeep, playJumpSound, playCrashSound } from '../utils/sound';
 
 const GithubIcon = ({ size = 16, ...props }) => (
   <svg 
@@ -702,6 +702,15 @@ export default function TelemetryWorkspace({ onBack }) {
                   </div>
 
                 </div>
+
+                {/* Dino Runner Arcade Panel */}
+                <div className="hud-panel panel-purple dino-arcade-panel" style={{ marginTop: '20px' }}>
+                  <h3 className="panel-header-title text-retro" style={{ fontSize: '11px', color: 'var(--purple-neon)', marginBottom: '12px' }}>
+                    👾 ARCADE STATION: DINO RUNNER
+                  </h3>
+                  <DinoRunner />
+                </div>
+
               </div>
             )}
 
@@ -879,3 +888,256 @@ export default function TelemetryWorkspace({ onBack }) {
     </div>
   );
 }
+
+function DinoRunner() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(() => {
+    return parseInt(localStorage.getItem('dino_highscore') || '0', 10);
+  });
+
+  const [dinoY, setDinoY] = useState(0); // Height off the ground
+  const [isJumping, setIsJumping] = useState(false);
+  const [obstacles, setObstacles] = useState([]);
+
+  const gameLoopRef = useRef(null);
+  const lastTimeRef = useRef(0);
+  const spawnTimerRef = useRef(0);
+  const scoreTimerRef = useRef(0);
+
+  // Jump physics variables
+  const dinoYRef = useRef(0);
+  const velocityRef = useRef(0);
+  const obstaclesRef = useRef([]);
+
+  // Gravity constant
+  const GRAVITY = -0.55;
+  const JUMP_FORCE = 8.5;
+
+  const handleJump = () => {
+    if (!isPlaying) {
+      startGame();
+      return;
+    }
+    if (isGameOver) {
+      startGame();
+      return;
+    }
+    if (dinoYRef.current === 0) {
+      velocityRef.current = JUMP_FORCE;
+      setIsJumping(true);
+      playJumpSound();
+    }
+  };
+
+  // Keyboard listener
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.code === 'Space' || e.code === 'ArrowUp') {
+        e.preventDefault();
+        handleJump();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isPlaying, isGameOver]);
+
+  const startGame = () => {
+    setIsPlaying(true);
+    setIsGameOver(false);
+    setScore(0);
+    setObstacles([]);
+    obstaclesRef.current = [];
+    dinoYRef.current = 0;
+    setDinoY(0);
+    velocityRef.current = 0;
+    lastTimeRef.current = performance.now();
+    spawnTimerRef.current = 0;
+    scoreTimerRef.current = 0;
+  };
+
+  // Game loop tick
+  useEffect(() => {
+    if (!isPlaying || isGameOver) {
+      if (gameLoopRef.current) {
+        cancelAnimationFrame(gameLoopRef.current);
+      }
+      return;
+    }
+
+    const tick = (time) => {
+      const delta = Math.min(time - lastTimeRef.current, 50); // cap delta to avoid massive leaps
+      lastTimeRef.current = time;
+
+      // Update physics: gravity pulls dino down
+      if (dinoYRef.current > 0 || velocityRef.current !== 0) {
+        velocityRef.current += GRAVITY;
+        dinoYRef.current = Math.max(0, dinoYRef.current + velocityRef.current);
+        setDinoY(dinoYRef.current);
+        if (dinoYRef.current === 0) {
+          setIsJumping(false);
+        }
+      }
+
+      // Update score (increment score slowly over ticks)
+      scoreTimerRef.current += delta;
+      if (scoreTimerRef.current >= 100) {
+        setScore(prev => {
+          const next = prev + 1;
+          if (next > highScore) {
+            setHighScore(next);
+            localStorage.setItem('dino_highscore', next.toString());
+          }
+          return next;
+        });
+        scoreTimerRef.current -= 100;
+      }
+
+      // Spawn obstacles (random intervals)
+      spawnTimerRef.current += delta;
+      const minSpawnTime = Math.max(900, 2100 - score * 8); // Speed up spawns as score increases
+      if (spawnTimerRef.current >= minSpawnTime && Math.random() > 0.45) {
+        const type = Math.random() > 0.8 && score > 60 ? 'bird' : 'cactus';
+        const height = type === 'bird' ? 24 : 32;
+        const width = 18;
+        // Bird obstacle flies higher, cactus is on ground
+        const bottom = type === 'bird' ? 50 + Math.random() * 25 : 24;
+
+        obstaclesRef.current.push({
+          id: Date.now() + Math.random(),
+          x: 100, // percentage of track
+          bottom: bottom,
+          width: width,
+          height: height,
+          type: type
+        });
+        spawnTimerRef.current = 0;
+      }
+
+      // Move obstacles (speed scales up with score)
+      const obstacleSpeed = 0.045 + score * 0.00008; // speed in terms of percentage per ms
+      obstaclesRef.current = obstaclesRef.current
+        .map(obs => ({ ...obs, x: obs.x - obstacleSpeed * delta }))
+        .filter(obs => obs.x > -10); // filter out off-screen obstacles
+
+      setObstacles([...obstaclesRef.current]);
+
+      // Check collision
+      // Dino is located at X range ~ [12%, 18%] on the screen.
+      // Ground level is bottom=24. Dino bottom is 24 + dinoY.
+      const dinoLeft = 12;
+      const dinoRight = 18;
+      const dinoBottom = 24 + dinoYRef.current;
+      const dinoTop = dinoBottom + 28; // height of dino is 28
+
+      for (let obs of obstaclesRef.current) {
+        const obsLeft = obs.x;
+        const obsRight = obs.x + 4.5; // visual width in percentage
+        const obsBottom = obs.bottom;
+        const obsTop = obs.bottom + obs.height;
+
+        // Collision check
+        const overlapX = (obsLeft < dinoRight) && (obsRight > dinoLeft);
+        const overlapY = (obsBottom < dinoTop) && (obsTop > dinoBottom);
+
+        if (overlapX && overlapY) {
+          // Crash!
+          setIsGameOver(true);
+          playCrashSound();
+          break;
+        }
+      }
+
+      if (!isGameOver) {
+        gameLoopRef.current = requestAnimationFrame(tick);
+      }
+    };
+
+    gameLoopRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(gameLoopRef.current);
+  }, [isPlaying, isGameOver, score, highScore]);
+
+  return (
+    <div className="dino-game-container" onClick={handleJump}>
+      {/* Score ticker */}
+      <div className="game-score-board">
+        <span>HI {highScore.toString().padStart(5, '0')}</span>
+        <span>{score.toString().padStart(5, '0')}</span>
+      </div>
+
+      {/* Ground floor line */}
+      <div className="dino-ground" />
+
+      {/* Dino character representation */}
+      <div 
+        className="dino-avatar"
+        style={{ 
+          bottom: `${24 + dinoY}px`,
+          transform: isJumping ? 'rotate(-10deg)' : (isPlaying && !isGameOver ? `translateY(${Math.sin(Date.now() / 40) * 1.5}px)` : 'none')
+        }}
+      >
+        <svg viewBox="0 0 16 16" width="100%" height="100%">
+          {/* Cute Retro Dino in SVG */}
+          <rect x="7" y="1" width="7" height="1" fill="#EB4B89" />
+          <rect x="6" y="2" width="9" height="1" fill="#EB4B89" />
+          <rect x="6" y="3" width="9" height="1" fill="#EB4B89" />
+          <rect x="6" y="4" width="6" height="1" fill="#EB4B89" />
+          <rect x="6" y="5" width="8" height="1" fill="#EB4B89" />
+          <rect x="1" y="6" width="12" height="1" fill="#EB4B89" />
+          <rect x="1" y="7" width="14" height="1" fill="#EB4B89" />
+          <rect x="1" y="8" width="15" height="1" fill="#EB4B89" />
+          <rect x="2" y="9" width="13" height="1" fill="#EB4B89" />
+          <rect x="3" y="10" width="11" height="1" fill="#EB4B89" />
+          <rect x="4" y="11" width="8" height="1" fill="#EB4B89" />
+          <rect x="5" y="12" width="6" height="1" fill="#EB4B89" />
+          <rect x="5" y="13" width="2" height="2" fill="#EB4B89" />
+          <rect x="9" y="13" width="2" height="2" fill="#EB4B89" />
+          {/* Eye */}
+          <rect x="8" y="2" width="1" height="1" fill="#000" />
+        </svg>
+      </div>
+
+      {/* Obstacles rendering */}
+      {obstacles.map((obs) => (
+        <div 
+          key={obs.id}
+          className={`dino-obstacle ${obs.type === 'bird' ? 'obstacle-bird' : ''}`}
+          style={{ 
+            left: `${obs.x}%`,
+            bottom: `${obs.bottom}px`,
+            width: `${obs.width}px`,
+            height: `${obs.height}px`
+          }}
+        />
+      ))}
+
+      {/* Intro or GameOver overlay screen */}
+      {(!isPlaying || isGameOver) && (
+        <div className="game-overlay-message">
+          <div className="game-title-hud">
+            {isGameOver ? 'GAME OVER' : 'DINO ARCADE STATION'}
+          </div>
+          <div className="game-instructions-hud">
+            {isGameOver 
+              ? `SCORE: ${score} - HIGH SCORE: ${highScore}`
+              : 'JUMP OVER OBSTACLES TO ACHIEVE HIGH SCORES!'
+            }
+            <br />
+            <span style={{ color: 'var(--cyan-neon)' }}>[SPACE / UP ARROW] or [CLICK] to Jump</span>
+          </div>
+          <button 
+            className="game-btn-action"
+            onClick={(e) => {
+              e.stopPropagation();
+              startGame();
+            }}
+          >
+            {isGameOver ? 'PLAY AGAIN' : 'START GAME'}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+

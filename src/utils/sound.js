@@ -174,3 +174,60 @@ export function playBeep() {
     // Suppress warnings for excessive console beeps
   }
 }
+
+/**
+ * Play a synthesizer sweep up (Retro jump sound)
+ */
+export function playJumpSound() {
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(180, now);
+    osc.frequency.exponentialRampToValueAtTime(680, now + 0.16);
+    
+    gain.gain.setValueAtTime(0.06, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.start(now);
+    osc.stop(now + 0.18);
+  } catch (e) {
+    console.warn("Audio Context blocked or failed:", e);
+  }
+}
+
+/**
+ * Play a low harsh saw sweep down (Game over/crash sound)
+ */
+export function playCrashSound() {
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(140, now);
+    osc.frequency.linearRampToValueAtTime(30, now + 0.35);
+    
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.start(now);
+    osc.stop(now + 0.4);
+  } catch (e) {
+    console.warn("Audio Context blocked or failed:", e);
+  }
+}
+

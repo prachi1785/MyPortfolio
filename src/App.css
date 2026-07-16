@@ -1581,3 +1581,154 @@
 .title-press-start-prompt .blinker {
   background: var(--pink-neon);
 }
+
+/* ==========================================
+   DINO RUNNER MINI-GAME STYLE RULES
+   ========================================== */
+
+.dino-arcade-panel {
+  margin-top: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 8px;
+}
+
+.dino-game-container {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  background: #090314;
+  border: 3px solid var(--purple-neon);
+  box-shadow: inset 0 0 16px rgba(142, 82, 220, 0.4), 0 0 12px rgba(142, 82, 220, 0.3);
+  overflow: hidden;
+  border-radius: 6px;
+  user-select: none;
+  cursor: pointer;
+}
+
+/* Grid scanning background for CRT effect */
+.dino-game-container::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.dino-ground {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  width: 200%;
+  height: 4px;
+  background: repeating-linear-gradient(90deg, #33452C, #33452C 4px, transparent 4px, transparent 8px);
+}
+
+.dino-avatar {
+  position: absolute;
+  left: 45px;
+  width: 28px;
+  height: 28px;
+  z-index: 2;
+  transform-origin: bottom center;
+  transition: transform 0.05s linear;
+}
+
+.dino-obstacle {
+  position: absolute;
+  bottom: 24px;
+  width: 18px;
+  height: 32px;
+  background: var(--pink-neon);
+  box-shadow: 0 0 6px var(--pink-neon);
+  clip-path: polygon(50% 0%, 100% 40%, 80% 40%, 100% 100%, 0% 100%, 20% 40%, 0% 40%);
+  z-index: 2;
+}
+
+/* Floating bird obstacle */
+.dino-obstacle.obstacle-bird {
+  width: 22px;
+  height: 14px;
+  background: var(--cyan-neon);
+  box-shadow: 0 0 6px var(--cyan-neon);
+  clip-path: polygon(0% 50%, 30% 0%, 50% 30%, 70% 0%, 100% 50%, 50% 100%);
+  animation: bird-flap 0.3s steps(2) infinite;
+}
+
+@keyframes bird-flap {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(-0.8); }
+}
+
+.game-score-board {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  display: flex;
+  gap: 16px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--cyan-neon);
+  text-shadow: 0 0 3px var(--cyan-neon);
+  z-index: 3;
+}
+
+.game-overlay-message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(9, 3, 20, 0.85);
+  z-index: 10;
+  color: #FFF;
+  text-align: center;
+}
+
+.game-title-hud {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: var(--yellow-neon);
+  text-shadow: 0 0 6px var(--yellow-neon);
+  margin-bottom: 12px;
+  animation: pulse-slow 1.5s infinite;
+}
+
+.game-instructions-hud {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #CBBFE6;
+  line-height: 1.6;
+}
+
+.game-btn-action {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: var(--purple-neon);
+  border: 2px solid #090314;
+  color: #FFF;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px #000;
+  image-rendering: pixelated;
+}
+
+.game-btn-action:hover {
+  background: #A572EC;
+}
+
+.game-btn-action:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #000;
+}
+
