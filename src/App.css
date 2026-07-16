@@ -309,7 +309,7 @@
   text-align: center;
   text-transform: uppercase;
   margin-bottom: 16px;
-  letter-spacing: -2px;
+  letter-spacing: 4px;
   /* Retro 3D Bevel text shadow */
   text-shadow: 
     -3px -3px 0px var(--dark-olive),
@@ -734,6 +734,7 @@
   font-weight: 800;
   color: var(--dark-olive);
   margin-bottom: 2px;
+  letter-spacing: 1.5px;
 }
 
 .character-class {

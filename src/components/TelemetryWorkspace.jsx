@@ -23,6 +23,33 @@ const GithubIcon = ({ size = 16, ...props }) => (
   </svg>
 );
 
+const projectList = [
+  {
+    mission: '01',
+    title: 'HirePilot AI – Resume Optimizer',
+    description: 'AI-powered platform analyzing resume job-description alignment. Computes keyword gaps and rewrites resume bullet points using Gemini 2.5 Flash JSON STAR extraction. Features a print-optimized ATS PDF rendering engine.',
+    tags: ['Gemini 2.5', 'React 19', 'TypeScript', 'Prisma'],
+    codeUrl: 'https://github.com/adityaagrawall/HirePilot-AI.git',
+    liveUrl: 'https://gethirepilot-ai.vercel.app'
+  },
+  {
+    mission: '02',
+    title: 'Sociomart – Media Marketplace',
+    description: 'Full-stack account trading marketplace with real-time chat systems, seller analytical dashboards, role-based Clerk authentication control, and Redux data states.',
+    tags: ['React.js', 'Express', 'PostgreSQL', 'Clerk'],
+    codeUrl: 'https://github.com/adityaagrawall/SocioMart-full-stack.git',
+    liveUrl: 'https://socio-mart.vercel.app'
+  },
+  {
+    mission: '03',
+    title: 'PremSweets – Business Website',
+    description: 'Responsive brand website with dynamic galleries and validator contact forms. Optimized mobile-first assets achieving a 95+ Google PageSpeed score.',
+    tags: ['HTML5', 'CSS3', 'JS', 'Responsive'],
+    codeUrl: 'https://github.com/adityaagrawall/PremSweets.git',
+    liveUrl: 'https://prem-sweets.vercel.app/'
+  }
+];
+
 export default function TelemetryWorkspace({ onBack }) {
   // Helper to render health-bar segmented progress slots
   const renderSegmentedBar = (level, total = 10, type = 'react') => {
@@ -58,6 +85,7 @@ export default function TelemetryWorkspace({ onBack }) {
   });
   const [messageTransmitted, setMessageTransmitted] = useState(false);
   const [transmissionLogs, setTransmissionLogs] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
   
   const navRef = useRef(null);
   const leftPanelRef = useRef(null);
@@ -631,86 +659,32 @@ export default function TelemetryWorkspace({ onBack }) {
               <div>
                 <h2 className="panel-header-title text-retro"><Folder size={18} /> Sector 0-4: Mission Select</h2>
                 <div className="projects-grid">
-                  
-                  {/* Project 1 */}
-                  <div className="project-card" style={{ height: 'auto', minHeight: '260px' }}>
-                    <div>
-                      <div className="project-header">
-                        <span className="project-mission-badge text-retro">MISSION 01</span>
-                      </div>
-                      <h3 className="project-title">HirePilot AI – Resume Optimizer</h3>
-                      <p className="project-desc">AI-powered platform analyzing resume job-description alignment. Computes keyword gaps and rewrites resume bullet points using Gemini 2.5 Flash JSON STAR extraction. Features a print-optimized ATS PDF rendering engine.</p>
+                  {projectList.map((project, idx) => (
+                    <div 
+                      key={idx} 
+                      className="project-card simple-card panel-cyan" 
+                      onClick={() => {
+                        playClickSound();
+                        setSelectedProject(project);
+                      }}
+                      style={{ 
+                        cursor: 'pointer', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center', 
+                        minHeight: '120px', 
+                        padding: '16px',
+                        textAlign: 'center',
+                        background: '#130B2D',
+                        borderRadius: '10px'
+                      }}
+                    >
+                      <h3 className="project-title" style={{ margin: 0, fontSize: '13px', fontFamily: 'var(--font-title)', color: '#FFF' }}>
+                        {project.title}
+                      </h3>
                     </div>
-                    <div style={{ marginTop: '12px' }}>
-                      <div className="project-tags">
-                        <span className="project-tag">Gemini 2.5</span>
-                        <span className="project-tag">React 19</span>
-                        <span className="project-tag">TypeScript</span>
-                        <span className="project-tag">Prisma</span>
-                      </div>
-                      <div className="project-links" style={{ marginTop: '8px' }}>
-                        <a href="https://github.com/adityaagrawall/HirePilot-AI.git" target="_blank" rel="noreferrer" className="project-link-btn"><GithubIcon size={12} /> Code</a>
-                        <a href="https://gethirepilot-ai.vercel.app" target="_blank" rel="noreferrer" className="project-link-btn"><ExternalLink size={12} /> Live</a>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Project 2 */}
-                  <div className="project-card" style={{ height: 'auto', minHeight: '260px' }}>
-                    <div>
-                      <div className="project-header">
-                        <span className="project-mission-badge text-retro">MISSION 02</span>
-                      </div>
-                      <h3 className="project-title">Sociomart – Media Marketplace</h3>
-                      <p className="project-desc">Full-stack account trading marketplace with real-time chat systems, seller analytical dashboards, role-based Clerk authentication control, and Redux data states.</p>
-                    </div>
-                    <div style={{ marginTop: '12px' }}>
-                      <div className="project-tags">
-                        <span className="project-tag">React.js</span>
-                        <span className="project-tag">Express</span>
-                        <span className="project-tag">PostgreSQL</span>
-                        <span className="project-tag">Clerk</span>
-                      </div>
-                      <div className="project-links" style={{ marginTop: '8px' }}>
-                        <a href="https://github.com/adityaagrawall/SocioMart-full-stack.git" target="_blank" rel="noreferrer" className="project-link-btn"><GithubIcon size={12} /> Code</a>
-                        <a href="https://socio-mart.vercel.app" target="_blank" rel="noreferrer" className="project-link-btn"><ExternalLink size={12} /> Live</a>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Project 3 */}
-                  <div className="project-card" style={{ height: 'auto', minHeight: '260px' }}>
-                    <div>
-                      <div className="project-header">
-                        <span className="project-mission-badge text-retro">MISSION 03</span>
-                      </div>
-                      <h3 className="project-title">PremSweets – Business Website</h3>
-                      <p className="project-desc">Responsive brand website with dynamic galleries and validator contact forms. Optimized mobile-first assets achieving a 95+ Google PageSpeed score.</p>
-                    </div>
-                    <div style={{ marginTop: '12px' }}>
-                      <div className="project-tags">
-                        <span className="project-tag">HTML5</span>
-                        <span className="project-tag">CSS3</span>
-                        <span className="project-tag">JS</span>
-                        <span className="project-tag">Responsive</span>
-                      </div>
-                      <div className="project-links" style={{ marginTop: '8px' }}>
-                        <a href="https://github.com/adityaagrawall/PremSweets.git" target="_blank" rel="noreferrer" className="project-link-btn"><GithubIcon size={12} /> Code</a>
-                        <a href="https://prem-sweets.vercel.app/" target="_blank" rel="noreferrer" className="project-link-btn"><ExternalLink size={12} /> Live</a>
-                      </div>
-                    </div>
-                  </div>
-
+                  ))}
                 </div>
-
-                {/* Dino Runner Arcade Panel */}
-                <div className="hud-panel panel-purple dino-arcade-panel" style={{ marginTop: '20px' }}>
-                  <h3 className="panel-header-title text-retro" style={{ fontSize: '11px', color: 'var(--purple-neon)', marginBottom: '12px' }}>
-                    👾 ARCADE STATION: DINO RUNNER
-                  </h3>
-                  <DinoRunner />
-                </div>
-
               </div>
             )}
 
@@ -863,6 +837,15 @@ export default function TelemetryWorkspace({ onBack }) {
                   </div>
 
                 </div>
+
+                {/* Dino Runner Arcade Panel */}
+                <div className="hud-panel panel-purple dino-arcade-panel" style={{ marginTop: '20px' }}>
+                  <h3 className="panel-header-title text-retro" style={{ fontSize: '11px', color: 'var(--purple-neon)', marginBottom: '12px' }}>
+                    👾 ARCADE STATION: DINO RUNNER
+                  </h3>
+                  <DinoRunner />
+                </div>
+
               </div>
             )}
 
@@ -885,6 +868,38 @@ export default function TelemetryWorkspace({ onBack }) {
         </footer>
 
       </div>
+
+      {/* Global Project Details Overlay Modal */}
+      {selectedProject && (
+        <div className="project-overlay-modal" onClick={() => setSelectedProject(null)} style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(9, 3, 20, 0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, pointerEvents: 'auto' }}>
+          <div className="project-modal-content panel-cyan" onClick={(e) => e.stopPropagation()} style={{ border: '3px solid var(--cyan-neon)', background: '#0D061E', padding: '32px', borderRadius: '12px', width: '90%', maxWidth: '500px', boxSizing: 'border-box', position: 'relative', boxShadow: '0 0 16px rgba(40, 206, 224, 0.5)' }}>
+            <button className="project-modal-close" onClick={() => setSelectedProject(null)} style={{ background: 'none', border: 'none', color: 'var(--cyan-neon)', fontSize: '16px', position: 'absolute', top: '16px', right: '16px', cursor: 'pointer', fontFamily: 'var(--font-title)' }}>
+              [X]
+            </button>
+            <div className="project-header" style={{ marginBottom: '12px' }}>
+              <span className="project-mission-badge text-retro">MISSION {selectedProject.mission}</span>
+            </div>
+            <h3 className="project-modal-title" style={{ fontFamily: 'var(--font-title)', fontSize: '14px', color: 'var(--cyan-neon)', marginBottom: '16px', textTransform: 'uppercase' }}>{selectedProject.title}</h3>
+            <p className="project-modal-desc" style={{ fontSize: '13.5px', color: '#D4DCFF', lineHeight: '1.6', fontFamily: 'var(--font-sans)', marginBottom: '20px' }}>
+              {selectedProject.description}
+            </p>
+            <div className="project-modal-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '24px' }}>
+              {selectedProject.tags.map((tag, idx) => (
+                <span key={idx} className="project-tag" style={{ fontSize: '10.5px' }}>{tag}</span>
+              ))}
+            </div>
+            <div className="project-modal-links" style={{ display: 'flex', gap: '12px' }}>
+              <a href={selectedProject.codeUrl} target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: '#1C1236', color: '#FFF', padding: '10px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '12px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                <GithubIcon size={12} /> Code
+              </a>
+              <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: 'var(--cyan-neon)', color: '#000', padding: '10px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '12px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                <ExternalLink size={12} /> Live
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
