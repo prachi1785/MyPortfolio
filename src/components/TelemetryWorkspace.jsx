@@ -5,7 +5,7 @@ import {
   CheckCircle2, Compass, Play, Server, Database, GraduationCap
 } from 'lucide-react';
 import gsap from 'gsap';
-import { playHoverSound, playClickSound, playBeep, playJumpSound, playCrashSound } from '../utils/sound';
+import { playHoverSound, playClickSound, playBeep, playJumpSound, playCrashSound, startBgm, stopBgm } from '../utils/sound';
 
 const GithubIcon = ({ size = 16, ...props }) => (
   <svg 
@@ -50,6 +50,53 @@ const projectList = [
   }
 ];
 
+const skillCategories = [
+  {
+    title: "Programming Languages",
+    skills: ["JavaScript (ES6+)", "TypeScript", "Python", "SQL", "Java", "HTML5", "CSS3"]
+  },
+  {
+    title: "Frontend Development",
+    skills: ["React.js", "Next.js", "Tailwind CSS", "Bootstrap", "Responsive Web Design", "Redux Toolkit"]
+  },
+  {
+    title: "Backend Development",
+    skills: ["Node.js", "Express.js", "REST API Development", "Authentication (JWT, OAuth)", "MVC Architecture", "API Integration"]
+  },
+  {
+    title: "Databases",
+    skills: ["MongoDB", "MySQL"]
+  },
+  {
+    title: "AI & Generative AI",
+    skills: ["Prompt Engineering", "OpenAI API", "Google Gemini API", "LangChain", "Retrieval-Augmented Generation (RAG)", "AI Chatbot Development"]
+  },
+  {
+    title: "Data Analysis",
+    skills: ["Power BI", "Microsoft Excel", "Pandas", "NumPy", "Data Visualization", "Statistical Analysis"]
+  },
+  {
+    title: "Business Analysis",
+    skills: ["Requirement Gathering", "BRD & FRD Documentation", "User Stories", "BPMN", "Process Mapping", "SWOT Analysis", "Agile & Scrum", "Jira"]
+  },
+  {
+    title: "Software Engineering",
+    skills: ["Object-Oriented Programming (OOP)", "Data Structures & Algorithms", "DBMS", "Operating Systems", "Computer Networks", "Software Development Life Cycle (SDLC)"]
+  },
+  {
+    title: "DevOps & Deployment",
+    skills: ["Git", "GitHub", "Docker", "Vercel", "Render", "CI/CD (Basics)"]
+  },
+  {
+    title: "Design & Prototyping",
+    skills: ["Figma", "Canva", "Wireframing", "UI/UX Design"]
+  },
+  {
+    title: "Soft Skills",
+    skills: ["Analytical Thinking", "Problem Solving", "Communication", "Team Collaboration", "Stakeholder Management", "Time Management", "Leadership", "Adaptability", "Presentation Skills"]
+  }
+];
+
 export default function TelemetryWorkspace({ onBack }) {
   // Helper to render health-bar segmented progress slots
   const renderSegmentedBar = (level, total = 10, type = 'react') => {
@@ -67,6 +114,17 @@ export default function TelemetryWorkspace({ onBack }) {
   };
 
   const [activeTab, setActiveTab] = useState('home');
+  const [isMuted, setIsMuted] = useState(false);
+  const toggleMute = () => {
+    const nextMute = !isMuted;
+    setIsMuted(nextMute);
+    playBeep();
+    if (nextMute) {
+      stopBgm();
+    } else {
+      startBgm();
+    }
+  };
   const [hudLogs, setHudLogs] = useState([
     'SYSTEM BOOT: Manipal University Jaipur sector unlocked.',
     'SDE INTERN GATEWAY: Established at PM Publishers.',
@@ -77,11 +135,14 @@ export default function TelemetryWorkspace({ onBack }) {
     { sender: 'bot', text: 'Hello! I am Aditya\'s AI Assistant. Ask about "skills", "education", "experience", "projects", or "contact" to query Aditya\'s career telemetry.' }
   ]);
   const [isTyping, setIsTyping] = useState(false);
-  const [skillLevels, setSkillLevels] = useState({
-    java: 4, js: 5, python: 5, SQL: 4, 
-    react: 5, redux: 4, tailwind: 5, uiux: 4,
-    node: 4, express: 4, postgres: 4, prisma: 5, supabase: 4,
-    git: 5, vscode: 5, postman: 4, docker: 3, agile: 4, claude: 5
+  const [skillLevels, setSkillLevels] = useState(() => {
+    const levels = {};
+    skillCategories.forEach(cat => {
+      cat.skills.forEach(skill => {
+        levels[skill] = Math.floor(Math.random() * 2) + 4; // active start levels (4 or 5)
+      });
+    });
+    return levels;
   });
   const [messageTransmitted, setMessageTransmitted] = useState(false);
   const [transmissionLogs, setTransmissionLogs] = useState([]);
@@ -310,6 +371,14 @@ export default function TelemetryWorkspace({ onBack }) {
               ◀ TITLE
             </button>
             <button 
+              className="hud-nav-link"
+              style={{ color: isMuted ? '#FF4D4D' : '#FFE57F', marginRight: '16px' }}
+              onClick={toggleMute}
+              onMouseEnter={playHoverSound}
+            >
+              {isMuted ? '🔇 MUTED' : '🔊 BGM'}
+            </button>
+            <button 
               className={`hud-nav-link ${activeTab === 'home' ? 'active' : ''}`}
               onClick={() => handleTabChange('home')}
               onMouseEnter={playHoverSound}
@@ -525,131 +594,35 @@ export default function TelemetryWorkspace({ onBack }) {
                 <p style={{ fontSize: '13.5px', marginBottom: '16px', color: 'var(--yellow-neon)', fontWeight: 'bold' }}>
                   [OPERATOR INSTRUCTION: CLICK NODES TO ALLOCATE XP COINS AND UPGRADE LEVEL STATS]
                 </p>
-                <div className="skills-tech-tree">
-                  
-                  {/* Category 1: Languages & Frontend */}
-                  <div className="skill-category-block">
-                    <div className="category-title text-retro">Languages & Frontend Nodes</div>
-                    <div className="skills-node-grid">
-                      <button className={`skill-node ${skillLevels.js >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('js')}>
-                        <div className="skill-node-icon"><Cpu /></div>
-                        <div className="skill-node-name">JavaScript</div>
-                        <div className="skill-node-level">LVL {skillLevels.js} / 5</div>
-                        {renderSegmentedBar(skillLevels.js, 5, 'js')}
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.python >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('python')}>
-                        <div className="skill-node-icon"><Terminal /></div>
-                        <div className="skill-node-name">Python</div>
-                        <div className="skill-node-level">LVL {skillLevels.python} / 5</div>
-                        {renderSegmentedBar(skillLevels.python, 5, 'js')}
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.java >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('java')}>
-                        <div className="skill-node-icon"><Server /></div>
-                        <div className="skill-node-name">Java</div>
-                        <div className="skill-node-level">LVL {skillLevels.java} / 5</div>
-                        {renderSegmentedBar(skillLevels.java, 5, 'html')}
-                      </button>
-                      
-                      <button className={`skill-node ${skillLevels.react >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('react')}>
-                        <div className="skill-node-icon"><Play /></div>
-                        <div className="skill-node-name">React.js</div>
-                        <div className="skill-node-level">LVL {skillLevels.react} / 5</div>
-                        {renderSegmentedBar(skillLevels.react, 5, 'react')}
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.redux >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('redux')}>
-                        <div className="skill-node-icon"><Layers /></div>
-                        <div className="skill-node-name">Redux Toolkit</div>
-                        <div className="skill-node-level">LVL {skillLevels.redux} / 5</div>
-                        {renderSegmentedBar(skillLevels.redux, 5, 'react')}
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.tailwind >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('tailwind')}>
-                        <div className="skill-node-icon"><Compass /></div>
-                        <div className="skill-node-name">Tailwind CSS</div>
-                        <div className="skill-node-level">LVL {skillLevels.tailwind} / 5</div>
-                        {renderSegmentedBar(skillLevels.tailwind, 5, 'react')}
-                      </button>
+                <div className="skills-tech-tree" style={{ maxHeight: '42vh', overflowY: 'auto', paddingRight: '8px' }}>
+                  {skillCategories.map((category, catIdx) => (
+                    <div key={catIdx} className="skill-category-block" style={{ marginBottom: '24px' }}>
+                      <div className="category-title text-retro" style={{ color: 'var(--cyan-neon)', borderBottom: '2px solid #33452C', paddingBottom: '4px', marginBottom: '12px' }}>
+                        {category.title}
+                      </div>
+                      <div className="skills-node-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '12px' }}>
+                        {category.skills.map((skill, skillIdx) => {
+                          const level = skillLevels[skill] || 4;
+                          return (
+                            <button 
+                              key={skillIdx} 
+                              className={`skill-node ${level >= 5 ? 'unlocked' : ''}`} 
+                              onClick={() => upgradeSkill(skill)}
+                              style={{ display: 'flex', flexDirection: 'column', padding: '10px', alignItems: 'center' }}
+                            >
+                              <div className="skill-node-name" style={{ fontSize: '10.5px', wordBreak: 'break-word', textAlign: 'center', marginBottom: '4px' }}>
+                                {skill}
+                              </div>
+                              <div className="skill-node-level" style={{ fontSize: '9px', opacity: 0.8 }}>
+                                LVL {level} / 5
+                              </div>
+                              {renderSegmentedBar(level, 5, 'react')}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Category 2: Backend & Databases */}
-                  <div className="skill-category-block">
-                    <div className="category-title text-retro">Backend & Databases</div>
-                    <div className="skills-node-grid">
-                      <button className={`skill-node ${skillLevels.node >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('node')}>
-                        <div className="skill-node-icon"><Server /></div>
-                        <div className="skill-node-name">Node & Express</div>
-                        <div className="skill-node-level">LVL {skillLevels.node} / 5</div>
-                        {renderSegmentedBar(skillLevels.node, 5, 'node')}
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.postgres >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('postgres')}>
-                        <div className="skill-node-icon"><Database /></div>
-                        <div className="skill-node-name">PostgreSQL</div>
-                        <div className="skill-node-level">LVL {skillLevels.postgres} / 5</div>
-                        {renderSegmentedBar(skillLevels.postgres, 5, 'sql')}
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.prisma >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('prisma')}>
-                        <div className="skill-node-icon"><Layers /></div>
-                        <div className="skill-node-name">Prisma ORM</div>
-                        <div className="skill-node-level">LVL {skillLevels.prisma} / 5</div>
-                        {renderSegmentedBar(skillLevels.prisma, 5, 'react')}
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.supabase >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('supabase')}>
-                        <div className="skill-node-icon"><Database /></div>
-                        <div className="skill-node-name">Supabase</div>
-                        <div className="skill-node-level">LVL {skillLevels.supabase} / 5</div>
-                        {renderSegmentedBar(skillLevels.supabase, 5, 'sql')}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Category 3: Tools & Practices */}
-                  <div className="skill-category-block">
-                    <div className="category-title text-retro">Tools & Best Practices</div>
-                    <div className="skills-node-grid">
-                      <button className={`skill-node ${skillLevels.git >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('git')}>
-                        <div className="skill-node-icon"><Cpu /></div>
-                        <div className="skill-node-name">Git & GitHub</div>
-                        <div className="skill-node-level">LVL {skillLevels.git} / 5</div>
-                        {renderSegmentedBar(skillLevels.git, 5, 'node')}
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.docker >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('docker')}>
-                        <div className="skill-node-icon"><Cpu /></div>
-                        <div className="skill-node-name">Docker</div>
-                        <div className="skill-node-level">LVL {skillLevels.docker} / 5</div>
-                        {renderSegmentedBar(skillLevels.docker, 5, 'sql')}
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.postman >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('postman')}>
-                        <div className="skill-node-icon"><Terminal /></div>
-                        <div className="skill-node-name">Postman APIs</div>
-                        <div className="skill-node-level">LVL {skillLevels.postman} / 5</div>
-                        {renderSegmentedBar(skillLevels.postman, 5, 'js')}
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.agile >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('agile')}>
-                        <div className="skill-node-icon"><Compass /></div>
-                        <div className="skill-node-name">Agile Scrum</div>
-                        <div className="skill-node-level">LVL {skillLevels.agile} / 5</div>
-                        {renderSegmentedBar(skillLevels.agile, 5, 'react')}
-                      </button>
-
-                      <button className={`skill-node ${skillLevels.claude >= 5 ? 'unlocked' : ''}`} onClick={() => upgradeSkill('claude')}>
-                        <div className="skill-node-icon"><Terminal /></div>
-                        <div className="skill-node-name">Claude Code</div>
-                        <div className="skill-node-level">LVL {skillLevels.claude} / 5</div>
-                        {renderSegmentedBar(skillLevels.claude, 5, 'js')}
-                      </button>
-                    </div>
-                  </div>
-
+                  ))}
                 </div>
               </div>
             )}

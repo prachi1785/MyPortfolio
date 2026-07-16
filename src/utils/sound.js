@@ -231,3 +231,69 @@ export function playCrashSound() {
   }
 }
 
+let bgmInterval = null;
+let bgmGainNode = null;
+let bgmPlaying = false;
+
+export function startBgm() {
+  if (bgmPlaying) return;
+  try {
+    const ctx = getAudioContext();
+    bgmPlaying = true;
+    
+    bgmGainNode = ctx.createGain();
+    bgmGainNode.gain.setValueAtTime(0.015, ctx.currentTime); // Low, pleasant BGM chiptune volume
+    bgmGainNode.connect(ctx.destination);
+
+    // Warm looping chiptune sequence frequencies
+    const melody = [
+      261.63, 329.63, 392.00, 329.63, // C Major arpeggio
+      392.00, 493.88, 587.33, 493.88, // G Major arpeggio
+      440.00, 523.25, 659.25, 523.25, // A Minor arpeggio
+      349.23, 440.00, 523.25, 440.00  // F Major arpeggio
+    ];
+    
+    let index = 0;
+    bgmInterval = setInterval(() => {
+      if (ctx.state === 'suspended') return;
+      
+      const freq = melody[index % melody.length];
+      const now = ctx.currentTime;
+      
+      const osc = ctx.createOscillator();
+      const noteGain = ctx.createGain();
+      
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, now);
+      
+      noteGain.gain.setValueAtTime(0.2, now);
+      noteGain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+      
+      osc.connect(noteGain);
+      noteGain.connect(bgmGainNode);
+      
+      osc.start(now);
+      osc.stop(now + 0.15);
+      
+      index++;
+    }, 150);
+  } catch (e) {
+    console.warn("BGM context block:", e);
+  }
+}
+
+export function stopBgm() {
+  bgmPlaying = false;
+  if (bgmInterval) {
+    clearInterval(bgmInterval);
+    bgmInterval = null;
+  }
+  if (bgmGainNode) {
+    try {
+      bgmGainNode.disconnect();
+    } catch(e){}
+    bgmGainNode = null;
+  }
+}
+
+

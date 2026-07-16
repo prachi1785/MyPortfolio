@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { playHoverSound, playClickSound, playStartSound, playBeep } from '../utils/sound';
+import { playHoverSound, playClickSound, playStartSound, playBeep, startBgm, stopBgm } from '../utils/sound';
 
 export default function TitleScreen({ onStart, isTransitioning }) {
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true); // default to muted to avoid auto-play blocking warnings
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
+    const nextMute = !isMuted;
+    setIsMuted(nextMute);
     playBeep();
-    // Toggle global audio context state if needed
-    if (window.AudioContext || window.webkitAudioContext) {
-      const AudioCtx = window.audioCtx || (window.audioCtx = new (window.AudioContext || window.webkitAudioContext)());
-      if (AudioCtx.state === 'suspended') {
-        AudioCtx.resume();
-      }
+    if (nextMute) {
+      stopBgm();
+    } else {
+      startBgm();
     }
   };
 
@@ -128,6 +127,7 @@ export default function TitleScreen({ onStart, isTransitioning }) {
           onClick={() => {
             playClickSound();
             playStartSound();
+            startBgm();
             onStart();
           }}
           onMouseEnter={playHoverSound}
