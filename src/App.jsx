@@ -7,10 +7,14 @@ import gsap from 'gsap';
 import './App.css';
 
 function App() {
+  const [appState, setAppState] = useState('TITLE'); // 'TITLE' | 'TRANSITIONING' | 'WORKSPACE'
   const [scanActive, setScanActive] = useState(false);
 
-  const handleStartScroll = () => {
+  const handleStartPortfolio = () => {
+    setAppState('TRANSITIONING');
     setScanActive(true);
+
+    // Play holographic scan sound
     playScanSound();
 
     // Trigger holographic scanner sweep animation on the viewport
@@ -22,20 +26,14 @@ function App() {
         ease: 'power2.inOut',
         onComplete: () => {
           setScanActive(false);
+          setAppState('WORKSPACE');
         }
       }
     );
-
-    // Smoothly scroll down to the workspace navigation dock
-    const workspaceEl = document.getElementById('telemetry-workspace-anchor');
-    if (workspaceEl) {
-      workspaceEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
   };
 
   return (
-    <div className="app-container" style={{ overflowY: 'auto', height: '100vh', scrollBehavior: 'smooth' }}>
-      
+    <div className="app-container">
       {/* 2D Animated Pixel Background */}
       <PixelArtBackground />
 
@@ -46,18 +44,18 @@ function App() {
       {/* Hologram sweep scanline (Active during transition) */}
       {scanActive && <div className="hologram-scanline-sweep" />}
 
-      {/* Screen Section 1: Title Screen (Takes 100vh height) */}
-      <div className="title-screen-section" style={{ position: 'relative', height: '100vh', width: '100%' }}>
+      {/* Screen 1: Title Screen */}
+      {appState === 'TITLE' && (
         <TitleScreen 
-          onStart={handleStartScroll} 
-          isTransitioning={scanActive} 
+          onStart={handleStartPortfolio} 
+          isTransitioning={appState === 'TRANSITIONING'} 
         />
-      </div>
+      )}
 
-      {/* Screen Section 2: Workspace Telemetry panels (Scroll Target) */}
-      <div id="telemetry-workspace-anchor" className="workspace-section" style={{ position: 'relative', width: '100%', zIndex: 10 }}>
-        <TelemetryWorkspace />
-      </div>
+      {/* Screen 2: Workspace Telemetry panels */}
+      {appState === 'WORKSPACE' && (
+        <TelemetryWorkspace onBack={() => setAppState('TITLE')} />
+      )}
     </div>
   );
 }
