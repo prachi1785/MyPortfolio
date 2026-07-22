@@ -1748,4 +1748,136 @@
   border-bottom: 1px solid rgba(51, 69, 44, 0.15);
 }
 
+/* ==========================================
+   WINDOWS 95 LIGHT DESKTOP THEMATIC OVERRIDES
+   ========================================== */
+
+.hud-panel {
+  border: 2px solid #4C566A !important;
+  background: #ECEFF4 !important;
+  color: #2E3440 !important;
+  box-shadow: 2px 2px 0px #000 !important;
+}
+
+.main-content-panel {
+  background: #FFFFFF !important;
+}
+
+.diagnostic-box {
+  background: #ECEFF4 !important;
+  border: 2px solid #4C566A !important;
+  color: #2E3440 !important;
+  box-shadow: inset 1px 1px 0px #FFF !important;
+}
+
+.chatbot-widget {
+  background: #ECEFF4 !important;
+  border: 2px solid #4C566A !important;
+  box-shadow: inset 1px 1px 0px #FFF !important;
+}
+
+.chatbot-messages {
+  background: #FFFFFF !important;
+  border: 2px solid #4C566A !important;
+  color: #2E3440 !important;
+}
+
+.chat-input-bar {
+  background: #D8DEE9 !important;
+}
+
+.chat-input-bar input {
+  background: #FFFFFF !important;
+  color: #2E3440 !important;
+  border: 2px solid #4C566A !important;
+}
+
+.project-card {
+  background: #ECEFF4 !important;
+  border: 2px solid #4C566A !important;
+  color: #2E3440 !important;
+  box-shadow: 3px 3px 0px #000 !important;
+}
+
+.project-card:hover {
+  background: #E5E9F0 !important;
+  border-color: #1E50B3 !important;
+  transform: translateY(-2px) !important;
+}
+
+.experience-node {
+  background: #ECEFF4 !important;
+  border: 2.5px solid #4C566A !important;
+  color: #2E3440 !important;
+  box-shadow: 3px 3px 0px #000 !important;
+}
+
+.contact-method {
+  background: #ECEFF4 !important;
+  border: 2.5px solid #4C566A !important;
+  color: #2E3440 !important;
+  box-shadow: 2px 2px 0px #000 !important;
+}
+
+.contact-method:hover {
+  background: #E5E9F0 !important;
+  border-color: #1E50B3 !important;
+}
+
+.form-control {
+  background: #FFFFFF !important;
+  border: 2px solid #4C566A !important;
+  color: #2E3440 !important;
+}
+
+.form-control:focus {
+  border-color: #1E50B3 !important;
+  background: #FFF !important;
+}
+
+.btn-transmit {
+  background: #72B043 !important;
+  border: 2.5px solid #1D4A06 !important;
+  color: #FFF !important;
+  box-shadow: 0 4px 0px #000 !important;
+  text-shadow: 1px 1px 0px #1D4A06 !important;
+}
+
+.btn-transmit:hover {
+  background: #5E8E3C !important;
+}
+
+.panel-header-title {
+  color: #1E50B3 !important;
+}
+
+.hud-coin-panel {
+  border: 2px solid #4C566A !important;
+  background: #E5E9F0 !important;
+}
+
+.hud-coin-text {
+  color: #4C566A !important;
+}
+
+/* Adjust progress blocks inside skills */
+.progress-block {
+  background: #D8DEE9 !important; /* light grey unfilled segment */
+}
+
+/* Scrollbar styling for Windows 95 feel */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #E5E9F0;
+  border-left: 1px solid #4C566A;
+}
+::-webkit-scrollbar-thumb {
+  background: #D8DEE9;
+  border: 2px solid #E5E9F0;
+  box-shadow: 1px 1px 0 #FFF inset, -1px -1px 0 #4C566A inset;
+}
+
+
 

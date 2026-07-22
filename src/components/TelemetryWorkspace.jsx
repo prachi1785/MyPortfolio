@@ -391,20 +391,20 @@ export default function TelemetryWorkspace({ onBack }) {
   };
 
   return (
-    <div className="workspace-overlay">
+    <div className="workspace-overlay" style={{ background: 'rgba(235, 241, 252, 0.92)', height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
       
       {/* 1. Navigation HUD Header */}
       <div ref={navRef} className="nav-hud-dock-wrapper" style={{ width: '100%' }}>
-        <header className="hud-header" style={{ position: 'relative', width: '100%', top: 0, padding: '0 0 10px 0', pointerEvents: 'auto' }}>
+        <header className="hud-header" style={{ position: 'relative', width: '100%', top: 0, padding: '8px 12px', background: '#D8DEE9', borderBottom: '2.5px solid #4C566A', display: 'flex', justifyContent: 'space-between', alignItems: 'center', pointerEvents: 'auto', boxSizing: 'border-box' }}>
           
           {/* AA Logo */}
-          <div className="hud-logo-box retro-bevel">AA</div>
+          <div className="hud-logo-box retro-bevel" style={{ background: '#4C566A', color: '#FFF', padding: '4px 10px', fontSize: '10px', fontFamily: 'var(--font-title)', borderRadius: '4px', border: '1.5px solid #000' }}>AA</div>
 
           {/* Navigation Links */}
-          <nav className="hud-nav-list">
+          <nav className="hud-nav-list" style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
             <button 
               className="hud-nav-link"
-              style={{ color: '#C44D4D', marginRight: '16px' }}
+              style={{ color: '#BF616A', background: '#E5E9F0', border: '2px solid #4C566A', borderRadius: '4px', padding: '4px 8px', fontSize: '9px', cursor: 'pointer', fontFamily: 'var(--font-title)' }}
               onClick={handleGoBack}
               onMouseEnter={playHoverSound}
             >
@@ -412,72 +412,56 @@ export default function TelemetryWorkspace({ onBack }) {
             </button>
             <button 
               className="hud-nav-link"
-              style={{ color: isMuted ? '#FF4D4D' : '#FFE57F', marginRight: '16px' }}
+              style={{ color: isMuted ? '#BF616A' : '#5E8E3C', background: '#E5E9F0', border: '2px solid #4C566A', borderRadius: '4px', padding: '4px 8px', fontSize: '9px', cursor: 'pointer', fontFamily: 'var(--font-title)' }}
               onClick={toggleMute}
               onMouseEnter={playHoverSound}
             >
               {isMuted ? '🔇 MUTED' : '🔊 BGM'}
             </button>
-            <button 
-              className={`hud-nav-link ${activeTab === 'home' ? 'active' : ''}`}
-              onClick={() => handleTabChange('home')}
-              onMouseEnter={playHoverSound}
-            >
-              HOME
-            </button>
-            <button 
-              className={`hud-nav-link ${activeTab === 'about' ? 'active' : ''}`}
-              onClick={() => handleTabChange('about')}
-              onMouseEnter={playHoverSound}
-            >
-              ABOUT
-            </button>
-            <button 
-              className={`hud-nav-link ${activeTab === 'skills' ? 'active' : ''}`}
-              onClick={() => handleTabChange('skills')}
-              onMouseEnter={playHoverSound}
-            >
-              SKILLS
-            </button>
-            <button 
-              className={`hud-nav-link ${activeTab === 'projects' ? 'active' : ''}`}
-              onClick={() => handleTabChange('projects')}
-              onMouseEnter={playHoverSound}
-            >
-              PROJECTS
-            </button>
-            <button 
-              className={`hud-nav-link ${activeTab === 'experience' ? 'active' : ''}`}
-              onClick={() => handleTabChange('experience')}
-              onMouseEnter={playHoverSound}
-            >
-              EXPERIENCE
-            </button>
-            <button 
-              className={`hud-nav-link ${activeTab === 'contact' ? 'active' : ''}`}
-              onClick={() => handleTabChange('contact')}
-              onMouseEnter={playHoverSound}
-            >
-              CONTACT
-            </button>
+            {['home', 'about', 'skills', 'projects', 'experience', 'contact'].map((tab) => {
+              const active = activeTab === tab;
+              return (
+                <button
+                  key={tab}
+                  className={`hud-nav-link ${active ? 'active' : ''}`}
+                  onClick={() => handleTabChange(tab)}
+                  onMouseEnter={playHoverSound}
+                  style={{
+                    textTransform: 'uppercase',
+                    fontSize: '9px',
+                    fontFamily: 'var(--font-title)',
+                    padding: '4px 10px',
+                    borderRadius: '4px',
+                    border: '2px solid #4C566A',
+                    background: active ? '#FFF' : '#ECEFF4',
+                    color: active ? '#1E50B3' : '#4C566A',
+                    cursor: 'pointer',
+                    boxShadow: active ? 'inset 1px 1px 0px rgba(0,0,0,0.1)' : 'none',
+                    fontWeight: active ? 'bold' : 'normal'
+                  }}
+                >
+                  {tab}
+                </button>
+              );
+            })}
           </nav>
 
           {/* Coin Counter */}
-          <div className="hud-coin-panel">
-            <div className="hud-coin-icon" />
-            <span className="hud-coin-text">x 90</span>
+          <div className="hud-coin-panel" style={{ background: '#E5E9F0', border: '2px solid #4C566A', borderRadius: '4px', padding: '4px 10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div className="hud-coin-icon" style={{ width: '10px', height: '10px', background: '#FFE57F', borderRadius: '50%', border: '1px solid #C59B27' }} />
+            <span className="hud-coin-text" style={{ fontSize: '9px', fontFamily: 'var(--font-title)', color: '#4C566A' }}>x 90</span>
           </div>
         </header>
       </div>
 
       {/* 2. Main Dashboard Layout Grid */}
-      <div className="workspace-content">
+      <div className="workspace-content" style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gridTemplateRows: '1fr 64px', gap: '16px', padding: '16px', boxSizing: 'border-box', height: 'calc(100% - 48px)', overflow: 'hidden' }}>
         
         {/* Sidebar Character sheet */}
-        <aside ref={leftPanelRef} className="hud-panel hud-sidebar-panel panel-pink">
+        <aside ref={leftPanelRef} className="hud-panel hud-sidebar-panel" style={{ border: '2.5px solid #4C566A', background: '#ECEFF4', borderRadius: '8px', color: '#2E3440', padding: '12px', boxShadow: '2px 2px 0px #000', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
           
           {/* SVG Character Avatar */}
-          <div className="avatar-container" style={{ border: '3px solid var(--pink-neon)', background: '#1A132C' }}>
+          <div className="avatar-container" style={{ border: '2px solid #4C566A', background: '#FFF', padding: '8px', borderRadius: '6px', marginBottom: '12px', display: 'flex', justifyContent: 'center', height: '110px' }}>
             <svg viewBox="0 0 16 16" className="avatar-img" width="100%" height="100%">
               {/* Headphones/Hair */}
               <rect x="3" y="2" width="10" height="7" fill="#EB4B89" />
@@ -542,8 +526,7 @@ export default function TelemetryWorkspace({ onBack }) {
           </div>
         </aside>
 
-        {/* Main Content Telemetry Screen */}
-        <main ref={mainPanelRef} className="hud-panel hud-main-panel panel-cyan">
+        <main ref={mainPanelRef} className="hud-panel hud-main-panel" style={{ border: '2.5px solid #4C566A', background: '#FFF', borderRadius: '8px', color: '#2E3440', padding: '20px', boxShadow: '2px 2px 0px #000', overflowY: 'auto' }}>
           <div className="hud-main-panel-content" style={{ height: '100%' }}>
             
             {/* HOME TAB */}
@@ -918,48 +901,47 @@ export default function TelemetryWorkspace({ onBack }) {
           </div>
         </main>
 
-        {/* Bottom Panel */}
-        <footer ref={bottomPanelRef} className="hud-panel hud-bottom-panel panel-purple">
-          <div className="system-logs text-retro">
+        {/* Bottom Status Bar */}
+        <footer ref={bottomPanelRef} className="hud-panel hud-bottom-panel" style={{ gridColumn: '1 / span 2', border: '2.5px solid #4C566A', background: '#D8DEE9', color: '#2E3440', padding: '6px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: 'inset 1px 1px 0px #FFF', borderRadius: '6px', overflow: 'hidden', height: '32px', boxSizing: 'border-box' }}>
+          <div className="system-logs text-retro" style={{ fontSize: '9px', display: 'flex', gap: '16px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '80%' }}>
             {hudLogs.map((log, i) => (
-              <span key={i} style={{ opacity: 1 - i * 0.35, marginRight: '24px' }}>
+              <span key={i} style={{ opacity: 1 - i * 0.35, marginRight: '24px', color: '#102B66' }}>
                 &gt; {log}
               </span>
             ))}
           </div>
-          <div className="system-stat-badge text-retro">
-            <span className="system-status-indicator" />
+          <div className="system-stat-badge text-retro" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '9px', color: '#102B66', fontWeight: 'bold' }}>
+            <span className="system-status-indicator" style={{ width: '8px', height: '8px', background: '#5E8E3C', borderRadius: '50%' }} />
             ONLINE
           </div>
         </footer>
-
       </div>
 
       {/* Global Project Details Overlay Modal */}
       {selectedProject && (
-        <div className="project-overlay-modal" onClick={() => setSelectedProject(null)} style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(9, 3, 20, 0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, pointerEvents: 'auto' }}>
-          <div className="project-modal-content panel-cyan" onClick={(e) => e.stopPropagation()} style={{ border: '3px solid var(--cyan-neon)', background: '#0D061E', padding: '48px', borderRadius: '12px', width: '95%', maxWidth: '800px', boxSizing: 'border-box', position: 'relative', boxShadow: '0 0 24px rgba(40, 206, 224, 0.6)' }}>
-            <button className="project-modal-close" onClick={() => setSelectedProject(null)} style={{ background: 'none', border: 'none', color: 'var(--cyan-neon)', fontSize: '20px', position: 'absolute', top: '24px', right: '24px', cursor: 'pointer', fontFamily: 'var(--font-title)' }}>
-              [X]
+        <div className="project-overlay-modal" onClick={() => setSelectedProject(null)} style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(9, 3, 20, 0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, pointerEvents: 'auto' }}>
+          <div className="project-modal-content" onClick={(e) => e.stopPropagation()} style={{ border: '4.5px solid #1E50B3', background: '#ECEFF4', padding: '36px', borderRadius: '12px', width: '95%', maxWidth: '750px', boxSizing: 'border-box', position: 'relative', boxShadow: '8px 8px 0px #090314' }}>
+            <button className="project-modal-close" onClick={() => setSelectedProject(null)} style={{ background: '#E03C3C', border: 'none', color: '#FFF', fontSize: '10px', fontWeight: 'bold', position: 'absolute', top: '16px', right: '16px', cursor: 'pointer', fontFamily: 'var(--font-title)', width: '22px', height: '22px', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              X
             </button>
-            <div className="project-header" style={{ marginBottom: '16px' }}>
-              <span className="project-mission-badge text-retro" style={{ fontSize: '12px', padding: '4px 8px' }}>MISSION {selectedProject.mission}</span>
+            <div className="project-header" style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span className="project-mission-badge text-retro" style={{ fontSize: '11px', padding: '4px 8px', background: '#1E50B3', color: '#FFF', border: '1.5px solid #000' }}>MISSION {selectedProject.mission}</span>
             </div>
-            <h3 className="project-modal-title" style={{ fontFamily: 'var(--font-title)', fontSize: '20px', color: 'var(--cyan-neon)', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '1px' }}>{selectedProject.title}</h3>
-            <p className="project-modal-desc" style={{ fontSize: '15.5px', color: '#D4DCFF', lineHeight: '1.7', fontFamily: 'var(--font-sans)', marginBottom: '24px' }}>
+            <h3 className="project-modal-title" style={{ fontFamily: 'var(--font-title)', fontSize: '16px', color: '#1E50B3', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '1px' }}>{selectedProject.title}</h3>
+            <p className="project-modal-desc" style={{ fontSize: '14.5px', color: '#2E3440', lineHeight: '1.6', fontFamily: 'var(--font-sans)', marginBottom: '24px' }}>
               {selectedProject.description}
             </p>
-            <div className="project-modal-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '32px' }}>
+            <div className="project-modal-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '28px' }}>
               {selectedProject.tags.map((tag, idx) => (
-                <span key={idx} className="project-tag" style={{ fontSize: '12px', padding: '4px 10px' }}>{tag}</span>
+                <span key={idx} className="project-tag" style={{ fontSize: '11px', padding: '4px 8px', background: '#E5E9F0', border: '1.5px solid #4C566A', color: '#4C566A', borderRadius: '4px' }}>{tag}</span>
               ))}
             </div>
             <div className="project-modal-links" style={{ display: 'flex', gap: '16px' }}>
-              <a href={selectedProject.codeUrl} target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: '#1C1236', color: '#FFF', padding: '14px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '14px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold' }}>
-                <GithubIcon size={16} /> Code
+              <a href={selectedProject.codeUrl} target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: '#D8DEE9', color: '#2E3440', padding: '12px', border: '2px solid #4C566A', borderRadius: '6px', fontSize: '13px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', boxShadow: 'inset 1px 1px 0px #FFF' }}>
+                <GithubIcon size={14} /> Code
               </a>
-              <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: 'var(--cyan-neon)', color: '#000', padding: '14px', border: '2px solid #33452C', borderRadius: '6px', fontSize: '14px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold' }}>
-                <ExternalLink size={16} /> Live
+              <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="project-link-btn" style={{ flex: 1, textAlign: 'center', background: '#72B043', color: '#FFF', padding: '12px', border: '2px solid #1D4A06', borderRadius: '6px', fontSize: '13px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', boxShadow: 'inset 1px 1px 0px rgba(255,255,255,0.4)', textShadow: '1px 1px 0px #1D4A06' }}>
+                <ExternalLink size={14} /> Live
               </a>
             </div>
           </div>
