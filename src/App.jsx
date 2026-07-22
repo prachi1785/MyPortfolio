@@ -47,19 +47,19 @@ function App() {
       </div>
 
       {/* Main Desktop Window Frame */}
-      <div className="retro-desktop-window" style={{ width: '92%', maxWidth: '1020px', height: '82vh', background: '#1E50B3', borderRadius: '12px', padding: '4px', boxSizing: 'border-box', border: '3.5px solid #1E50B3', position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 12px 32px rgba(30, 80, 179, 0.25)' }}>
+      <div className="retro-desktop-window" style={{ width: '92%', maxWidth: '1020px', height: '82vh', background: '#1A52B8', borderRadius: '24px', padding: '16px', boxSizing: 'border-box', position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 12px 32px rgba(26, 82, 184, 0.35)' }}>
         
         {/* Window Title Bar */}
-        <div className="retro-window-header" style={{ height: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 12px', background: '#1E50B3', color: '#FFF', fontFamily: 'var(--font-title)', fontSize: '10px' }}>
+        <div className="retro-window-header" style={{ height: '36px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 12px 10px 8px', background: '#1A52B8', color: '#FFF', fontFamily: 'var(--font-title)', fontSize: '12px', letterSpacing: '1px' }}>
           <span>LANDSCAPE.EXE</span>
           {/* Maximize red button icon */}
-          <button style={{ width: '22px', height: '22px', border: 'none', background: '#E03C3C', color: '#FFF', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 'bold' }}>
+          <button style={{ width: '28px', height: '28px', border: 'none', background: '#E03C3C', color: '#FFF', borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 'bold', boxShadow: 'inset 1px 1px 0px rgba(255,255,255,0.4), 1px 1px 2px rgba(0,0,0,0.3)' }}>
             ⤢
           </button>
         </div>
 
         {/* Core Viewport Container */}
-        <div style={{ flex: 1, background: '#FFF', position: 'relative', overflow: 'hidden', borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px' }}>
+        <div style={{ flex: 1, background: '#FFF', position: 'relative', overflow: 'hidden', borderRadius: '16px', border: '3px solid #000' }}>
           {/* Scenery background */}
           <PixelArtBackground appState={appState} />
 
