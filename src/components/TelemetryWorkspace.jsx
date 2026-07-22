@@ -637,7 +637,7 @@ export default function TelemetryWorkspace({ onBack }) {
                   Full-Stack development directories paired with structured requirement modeling core competencies.
                 </p>
                 
-                <div className="skills-tech-tree" style={{ flex: 1, maxHeight: '43vh', overflowY: 'auto', paddingRight: '8px' }}>
+                <div className="skills-tech-tree" style={{ width: '100%' }}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 24px 1fr', gap: '8px' }}>
                     
                     {/* Left Column: Full Stack Developer Skills */}
