@@ -50,52 +50,80 @@ const projectList = [
   }
 ];
 
-const skillCategories = [
+const fullStackSkills = [
   {
-    title: "Programming Languages",
-    skills: ["JavaScript (ES6+)", "TypeScript", "Python", "SQL", "Java", "HTML5", "CSS3"]
+    title: "1. FRONTEND",
+    skills: ["HTML5 & CSS3", "JavaScript (ES6+)", "TypeScript", "React.js", "Tailwind CSS / Bootstrap", "API Integration", "React Router"]
   },
   {
-    title: "Frontend Development",
-    skills: ["React.js", "Next.js", "Tailwind CSS", "Bootstrap", "Responsive Web Design", "Redux Toolkit"]
+    title: "2. BACKEND",
+    skills: ["Node.js", "Express.js", "REST APIs", "JWT & OAuth basics", "File Uploads", "Error Handling", "Middleware"]
   },
   {
-    title: "Backend Development",
-    skills: ["Node.js", "Express.js", "REST API Development", "Authentication (JWT, OAuth)", "MVC Architecture", "API Integration"]
+    title: "3. DATABASE",
+    skills: ["MySQL", "MongoDB", "CRUD Operations", "SQL Queries & Joins", "Basic Indexes"]
   },
   {
-    title: "Databases",
-    skills: ["MongoDB", "MySQL"]
+    title: "4. CS FUNDAMENTALS",
+    skills: ["DSA (arrays, strings, lists, stacks, sorting, searching)", "OOP Concepts", "DBMS Fundamentals", "OS & Networks basics"]
   },
   {
-    title: "AI & Generative AI",
-    skills: ["Prompt Engineering", "OpenAI API", "Google Gemini API", "LangChain", "Retrieval-Augmented Generation (RAG)", "AI Chatbot Development"]
+    title: "5. VERSION CONTROL",
+    skills: ["Git", "GitHub"]
   },
   {
-    title: "Data Analysis",
-    skills: ["Power BI", "Microsoft Excel", "Pandas", "NumPy", "Data Visualization", "Statistical Analysis"]
-  },
-  {
-    title: "Business Analysis",
-    skills: ["Requirement Gathering", "BRD & FRD Documentation", "User Stories", "BPMN", "Process Mapping", "SWOT Analysis", "Agile & Scrum", "Jira"]
-  },
-  {
-    title: "Software Engineering",
-    skills: ["Object-Oriented Programming (OOP)", "Data Structures & Algorithms", "DBMS", "Operating Systems", "Computer Networks", "Software Development Life Cycle (SDLC)"]
-  },
-  {
-    title: "DevOps & Deployment",
-    skills: ["Git", "GitHub", "Docker", "Vercel", "Render", "CI/CD (Basics)"]
-  },
-  {
-    title: "Design & Prototyping",
-    skills: ["Figma", "Canva", "Wireframing", "UI/UX Design"]
-  },
-  {
-    title: "Soft Skills",
-    skills: ["Analytical Thinking", "Problem Solving", "Communication", "Team Collaboration", "Stakeholder Management", "Time Management", "Leadership", "Adaptability", "Presentation Skills"]
+    title: "6. DEPLOYMENT",
+    skills: ["Vercel", "Netlify", "Render"]
   }
 ];
+
+const businessAnalystSkills = [
+  {
+    title: "1. BA FUNDAMENTALS",
+    skills: ["Requirement Gathering", "Stakeholder Analysis", "SWOT Analysis", "Root Cause Analysis", "User Stories"]
+  },
+  {
+    title: "2. DOCUMENTATION",
+    skills: ["BRD & FRD Documents", "SRS Specifications", "Minutes of Meeting (MoM)", "Traceability Matrix (RTM)"]
+  },
+  {
+    title: "3. PROCESS MODELING",
+    skills: ["Draw.io tools", "As-Is & To-Be Processes", "Flowcharts", "BPMN Diagrams (basic)"]
+  },
+  {
+    title: "4. AGILE & SCRUM",
+    skills: ["Scrum Roles", "Sprint Planning", "Product Backlog", "User Stories & Story Points", "Sprint Review"]
+  },
+  {
+    title: "5. TOOLS & DATA SKILLS",
+    isSplit: true,
+    subcategories: [
+      {
+        title: "Data Analytics:",
+        skills: ["Excel", "SQL (Queries, Joins)", "Power BI"]
+      },
+      {
+        title: "Collaboration & Design:",
+        skills: ["Jira", "Confluence", "Canva", "Draw.io"]
+      }
+    ]
+  },
+  {
+    title: "6. COMMUNICATION",
+    isSplit: true,
+    subcategories: [
+      {
+        title: "",
+        skills: ["Presentation skills", "Stakeholder communication", "Report writing"]
+      },
+      {
+        title: "",
+        skills: ["Requirement elicitation", "Meeting facilitation"]
+      }
+    ]
+  }
+];
+
 
 export default function TelemetryWorkspace({ onBack }) {
   // Helper to render health-bar segmented progress slots
@@ -137,11 +165,23 @@ export default function TelemetryWorkspace({ onBack }) {
   const [isTyping, setIsTyping] = useState(false);
   const [skillLevels, setSkillLevels] = useState(() => {
     const levels = {};
-    skillCategories.forEach(cat => {
-      cat.skills.forEach(skill => {
-        levels[skill] = Math.floor(Math.random() * 2) + 4; // active start levels (4 or 5)
+    const addSkills = (list) => {
+      list.forEach(item => {
+        if (item.isSplit) {
+          item.subcategories.forEach(sub => {
+            sub.skills.forEach(sk => {
+              levels[sk] = Math.floor(Math.random() * 2) + 4;
+            });
+          });
+        } else {
+          item.skills.forEach(sk => {
+            levels[sk] = Math.floor(Math.random() * 2) + 4;
+          });
+        }
       });
-    });
+    };
+    addSkills(fullStackSkills);
+    addSkills(businessAnalystSkills);
     return levels;
   });
   const [messageTransmitted, setMessageTransmitted] = useState(false);
@@ -590,67 +630,92 @@ export default function TelemetryWorkspace({ onBack }) {
             {/* SKILLS TAB */}
             {activeTab === 'skills' && (
               <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <h2 className="panel-header-title text-retro"><Zap size={18} /> Sector 0-3: Skill Registry Table</h2>
-                <p style={{ fontSize: '12px', marginBottom: '12px', color: 'var(--yellow-neon)', fontWeight: 'bold' }}>
-                  [OPERATOR INSTRUCTION: CLICK UPGRADE ROW BUTTONS TO ALLOCATE XP COINS]
+                <h2 className="panel-header-title text-retro" style={{ fontSize: '14px', marginBottom: '4px' }}>
+                  TECHNICAL & BUSINESS ANALYST SKILLS
+                </h2>
+                <p style={{ fontSize: '11px', marginBottom: '16px', color: '#D4DCFF', opacity: 0.85, fontWeight: 'normal', fontFamily: 'var(--font-sans)' }}>
+                  Full-Stack development directories paired with structured requirement modeling core competencies.
                 </p>
+                
                 <div className="skills-tech-tree" style={{ flex: 1, maxHeight: '43vh', overflowY: 'auto', paddingRight: '8px' }}>
-                  {skillCategories.map((category, catIdx) => (
-                    <div key={catIdx} className="skill-category-block" style={{ marginBottom: '28px' }}>
-                      <div className="category-title text-retro" style={{ color: 'var(--cyan-neon)', borderBottom: '2px solid #33452C', paddingBottom: '6px', marginBottom: '12px', fontSize: '13px', fontWeight: 'bold' }}>
-                        🛡️ {category.title}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 24px 1fr', gap: '8px' }}>
+                    
+                    {/* Left Column: Full Stack Developer Skills */}
+                    <div>
+                      <div className="text-retro" style={{ color: 'var(--cyan-neon)', fontSize: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                        🚀 FULL STACK DEVELOPER SKILLS
                       </div>
-                      <div style={{ overflowX: 'auto' }}>
-                        <table className="retro-skills-table" style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-sans)', fontSize: '13.5px', color: '#D4DCFF', textAlign: 'left', border: '2px solid #33452C' }}>
-                          <thead>
-                            <tr style={{ background: '#1A132C', borderBottom: '2px solid #33452C', fontSize: '11.5px', fontFamily: 'var(--font-title)' }}>
-                              <th style={{ padding: '10px', color: 'var(--cyan-neon)' }}>SKILL NODE</th>
-                              <th style={{ padding: '10px', color: 'var(--cyan-neon)', textAlign: 'center', width: '90px' }}>LEVEL</th>
-                              <th style={{ padding: '10px', color: 'var(--cyan-neon)', textAlign: 'center', width: '140px' }}>MASTERY</th>
-                              <th style={{ padding: '10px', color: 'var(--cyan-neon)', textAlign: 'center', width: '100px' }}>XP ACTION</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {category.skills.map((skill, skillIdx) => {
-                              const level = skillLevels[skill] || 4;
-                              return (
-                                <tr key={skillIdx} style={{ borderBottom: '1px solid #1C1236', background: skillIdx % 2 === 0 ? 'rgba(28, 18, 54, 0.2)' : 'transparent' }}>
-                                  <td style={{ padding: '10px', fontWeight: 'bold' }}>{skill}</td>
-                                  <td style={{ padding: '10px', textAlign: 'center', fontFamily: 'var(--font-title)', fontSize: '9px', color: 'var(--yellow-neon)' }}>
-                                    LVL {level} / 5
-                                  </td>
-                                  <td style={{ padding: '10px', textAlign: 'center' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                      {renderSegmentedBar(level, 5, 'react')}
-                                    </div>
-                                  </td>
-                                  <td style={{ padding: '10px', textAlign: 'center' }}>
-                                    <button 
-                                      className="game-btn-action" 
-                                      onClick={() => upgradeSkill(skill)}
-                                      disabled={level >= 5}
-                                      style={{ 
-                                        padding: '4px 8px', 
-                                        fontSize: '8px', 
-                                        margin: '0 auto', 
-                                        display: 'block',
-                                        background: level >= 5 ? '#33452C' : 'var(--purple-neon)',
-                                        color: level >= 5 ? '#888' : '#FFF',
-                                        borderColor: '#000',
-                                        cursor: level >= 5 ? 'not-allowed' : 'pointer'
-                                      }}
-                                    >
-                                      {level >= 5 ? 'MAXED' : 'UPGRADE'}
-                                    </button>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        {fullStackSkills.map((card, cIdx) => (
+                          <div key={cIdx} style={{ border: '2px solid #33452C', background: '#090314', padding: '14px', borderRadius: '8px', boxShadow: '0 4px 0px #000' }}>
+                            <div className="text-retro" style={{ color: 'var(--cyan-neon)', fontSize: '10.5px', borderBottom: '1px dotted #33452C', paddingBottom: '4px', marginBottom: '8px', fontWeight: 'bold' }}>
+                              {card.title}
+                            </div>
+                            <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                              {card.skills.map((skill, skIdx) => (
+                                <li key={skIdx} onMouseEnter={playHoverSound} style={{ position: 'relative', paddingLeft: '12px', marginBottom: '4px', fontSize: '11.5px', color: '#D4DCFF', lineHeight: '1.4' }}>
+                                  <span style={{ position: 'absolute', left: 0, color: 'var(--cyan-neon)' }}>•</span>
+                                  {skill}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  ))}
+
+                    {/* Divider Line */}
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <div style={{ borderLeft: '2px dashed #33452C', height: '100%', opacity: 0.5 }} />
+                    </div>
+
+                    {/* Right Column: Business Analyst Skills */}
+                    <div>
+                      <div className="text-retro" style={{ color: 'var(--purple-neon)', fontSize: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                        📊 BUSINESS ANALYST SKILLS
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        {businessAnalystSkills.map((card, cIdx) => (
+                          <div key={cIdx} style={{ border: '2px solid #33452C', background: '#090314', padding: '14px', borderRadius: '8px', boxShadow: '0 4px 0px #000' }}>
+                            <div className="text-retro" style={{ color: 'var(--purple-neon)', fontSize: '10.5px', borderBottom: '1px dotted #33452C', paddingBottom: '4px', marginBottom: '8px', fontWeight: 'bold' }}>
+                              {card.title}
+                            </div>
+                            {card.isSplit ? (
+                              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                                {card.subcategories.map((sub, sIdx) => (
+                                  <div key={sIdx}>
+                                    {sub.title && (
+                                      <div style={{ fontSize: '10.5px', textDecoration: 'underline', color: 'var(--yellow-neon)', marginBottom: '6px', fontWeight: 'bold' }}>
+                                        {sub.title}
+                                      </div>
+                                    )}
+                                    <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                                      {sub.skills.map((skill, skIdx) => (
+                                        <li key={skIdx} onMouseEnter={playHoverSound} style={{ position: 'relative', paddingLeft: '12px', marginBottom: '4px', fontSize: '11.5px', color: '#D4DCFF', lineHeight: '1.4' }}>
+                                          <span style={{ position: 'absolute', left: 0, color: 'var(--purple-neon)' }}>•</span>
+                                          {skill}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                                {card.skills.map((skill, skIdx) => (
+                                  <li key={skIdx} onMouseEnter={playHoverSound} style={{ position: 'relative', paddingLeft: '12px', marginBottom: '4px', fontSize: '11.5px', color: '#D4DCFF', lineHeight: '1.4' }}>
+                                    <span style={{ position: 'absolute', left: 0, color: 'var(--purple-neon)' }}>•</span>
+                                    {skill}
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
               </div>
             )}
