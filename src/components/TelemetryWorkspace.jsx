@@ -633,7 +633,7 @@ export default function TelemetryWorkspace({ onBack }) {
                 <h2 className="panel-header-title text-retro" style={{ fontSize: '14px', marginBottom: '4px' }}>
                   TECHNICAL & BUSINESS ANALYST SKILLS
                 </h2>
-                <p style={{ fontSize: '11px', marginBottom: '16px', color: '#D4DCFF', opacity: 0.85, fontWeight: 'normal', fontFamily: 'var(--font-sans)' }}>
+                <p style={{ fontSize: '12px', marginBottom: '16px', color: '#D4DCFF', opacity: 0.85, fontWeight: 'normal', fontFamily: 'var(--font-sans)' }}>
                   Full-Stack development directories paired with structured requirement modeling core competencies.
                 </p>
                 
@@ -642,18 +642,18 @@ export default function TelemetryWorkspace({ onBack }) {
                     
                     {/* Left Column: Full Stack Developer Skills */}
                     <div>
-                      <div className="text-retro" style={{ color: 'var(--cyan-neon)', fontSize: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                      <div className="text-retro" style={{ color: 'var(--cyan-neon)', fontSize: '13px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
                         🚀 FULL STACK DEVELOPER SKILLS
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         {fullStackSkills.map((card, cIdx) => (
-                          <div key={cIdx} style={{ border: '2px solid #33452C', background: '#090314', padding: '14px', borderRadius: '8px', boxShadow: '0 4px 0px #000' }}>
-                            <div className="text-retro" style={{ color: 'var(--cyan-neon)', fontSize: '10.5px', borderBottom: '1px dotted #33452C', paddingBottom: '4px', marginBottom: '8px', fontWeight: 'bold' }}>
+                          <div key={cIdx} style={{ border: '2px solid #33452C', background: '#090314', padding: '16px', borderRadius: '8px', boxShadow: '0 4px 0px #000' }}>
+                            <div className="text-retro" style={{ color: 'var(--cyan-neon)', fontSize: '13px', borderBottom: '1px dotted #33452C', paddingBottom: '6px', marginBottom: '10px', fontWeight: 'bold' }}>
                               {card.title}
                             </div>
                             <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
                               {card.skills.map((skill, skIdx) => (
-                                <li key={skIdx} onMouseEnter={playHoverSound} style={{ position: 'relative', paddingLeft: '12px', marginBottom: '4px', fontSize: '11.5px', color: '#D4DCFF', lineHeight: '1.4' }}>
+                                <li key={skIdx} onMouseEnter={playHoverSound} style={{ position: 'relative', paddingLeft: '16px', marginBottom: '6px', fontSize: '14.5px', color: '#D4DCFF', lineHeight: '1.4' }}>
                                   <span style={{ position: 'absolute', left: 0, color: 'var(--cyan-neon)' }}>•</span>
                                   {skill}
                                 </li>
@@ -671,13 +671,13 @@ export default function TelemetryWorkspace({ onBack }) {
 
                     {/* Right Column: Business Analyst Skills */}
                     <div>
-                      <div className="text-retro" style={{ color: 'var(--purple-neon)', fontSize: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                      <div className="text-retro" style={{ color: 'var(--purple-neon)', fontSize: '13px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
                         📊 BUSINESS ANALYST SKILLS
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         {businessAnalystSkills.map((card, cIdx) => (
-                          <div key={cIdx} style={{ border: '2px solid #33452C', background: '#090314', padding: '14px', borderRadius: '8px', boxShadow: '0 4px 0px #000' }}>
-                            <div className="text-retro" style={{ color: 'var(--purple-neon)', fontSize: '10.5px', borderBottom: '1px dotted #33452C', paddingBottom: '4px', marginBottom: '8px', fontWeight: 'bold' }}>
+                          <div key={cIdx} style={{ border: '2px solid #33452C', background: '#090314', padding: '16px', borderRadius: '8px', boxShadow: '0 4px 0px #000' }}>
+                            <div className="text-retro" style={{ color: 'var(--purple-neon)', fontSize: '13px', borderBottom: '1px dotted #33452C', paddingBottom: '6px', marginBottom: '10px', fontWeight: 'bold' }}>
                               {card.title}
                             </div>
                             {card.isSplit ? (
@@ -685,13 +685,13 @@ export default function TelemetryWorkspace({ onBack }) {
                                 {card.subcategories.map((sub, sIdx) => (
                                   <div key={sIdx}>
                                     {sub.title && (
-                                      <div style={{ fontSize: '10.5px', textDecoration: 'underline', color: 'var(--yellow-neon)', marginBottom: '6px', fontWeight: 'bold' }}>
+                                      <div style={{ fontSize: '12.5px', textDecoration: 'underline', color: 'var(--yellow-neon)', marginBottom: '8px', fontWeight: 'bold' }}>
                                         {sub.title}
                                       </div>
                                     )}
                                     <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
                                       {sub.skills.map((skill, skIdx) => (
-                                        <li key={skIdx} onMouseEnter={playHoverSound} style={{ position: 'relative', paddingLeft: '12px', marginBottom: '4px', fontSize: '11.5px', color: '#D4DCFF', lineHeight: '1.4' }}>
+                                        <li key={skIdx} onMouseEnter={playHoverSound} style={{ position: 'relative', paddingLeft: '16px', marginBottom: '6px', fontSize: '14.5px', color: '#D4DCFF', lineHeight: '1.4' }}>
                                           <span style={{ position: 'absolute', left: 0, color: 'var(--purple-neon)' }}>•</span>
                                           {skill}
                                         </li>
@@ -703,7 +703,7 @@ export default function TelemetryWorkspace({ onBack }) {
                             ) : (
                               <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
                                 {card.skills.map((skill, skIdx) => (
-                                  <li key={skIdx} onMouseEnter={playHoverSound} style={{ position: 'relative', paddingLeft: '12px', marginBottom: '4px', fontSize: '11.5px', color: '#D4DCFF', lineHeight: '1.4' }}>
+                                  <li key={skIdx} onMouseEnter={playHoverSound} style={{ position: 'relative', paddingLeft: '16px', marginBottom: '6px', fontSize: '14.5px', color: '#D4DCFF', lineHeight: '1.4' }}>
                                     <span style={{ position: 'absolute', left: 0, color: 'var(--purple-neon)' }}>•</span>
                                     {skill}
                                   </li>

@@ -11,22 +11,21 @@ function App() {
   const [scanActive, setScanActive] = useState(false);
 
   const handleStartJourney = () => {
-    setAppState('TRANSITIONING');
+    setAppState('WORKSPACE');
     setScanActive(true);
 
     // Play holographic scan sound
     playScanSound();
 
-    // Trigger holographic scanner sweep animation on the viewport
+    // Trigger fast scanner sweep animation on viewport
     gsap.fromTo('.hologram-scanline-sweep',
       { top: '0%' },
       { 
         top: '100%', 
-        duration: 1.5, 
-        ease: 'power2.inOut',
+        duration: 0.5, 
+        ease: 'power2.out',
         onComplete: () => {
           setScanActive(false);
-          setAppState('WORKSPACE');
         }
       }
     );
