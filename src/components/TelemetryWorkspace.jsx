@@ -642,13 +642,13 @@ export default function TelemetryWorkspace({ onBack }) {
                     
                     {/* Left Column: Full Stack Developer Skills */}
                     <div>
-                      <div className="text-retro" style={{ color: 'var(--cyan-neon)', fontSize: '13px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                      <div className="text-retro" style={{ color: 'var(--cyan-neon)', fontSize: '16px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
                         🚀 FULL STACK DEVELOPER SKILLS
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         {fullStackSkills.map((card, cIdx) => (
                           <div key={cIdx} style={{ border: '2px solid #33452C', background: '#090314', padding: '16px', borderRadius: '8px', boxShadow: '0 4px 0px #000' }}>
-                            <div className="text-retro" style={{ color: 'var(--cyan-neon)', fontSize: '13px', borderBottom: '1px dotted #33452C', paddingBottom: '6px', marginBottom: '10px', fontWeight: 'bold' }}>
+                            <div className="text-retro" style={{ color: 'var(--cyan-neon)', fontSize: '14.5px', borderBottom: '1px dotted #33452C', paddingBottom: '6px', marginBottom: '10px', fontWeight: 'bold' }}>
                               {card.title}
                             </div>
                             <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
@@ -671,13 +671,13 @@ export default function TelemetryWorkspace({ onBack }) {
 
                     {/* Right Column: Business Analyst Skills */}
                     <div>
-                      <div className="text-retro" style={{ color: 'var(--purple-neon)', fontSize: '13px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                      <div className="text-retro" style={{ color: 'var(--purple-neon)', fontSize: '16px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
                         📊 BUSINESS ANALYST SKILLS
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         {businessAnalystSkills.map((card, cIdx) => (
                           <div key={cIdx} style={{ border: '2px solid #33452C', background: '#090314', padding: '16px', borderRadius: '8px', boxShadow: '0 4px 0px #000' }}>
-                            <div className="text-retro" style={{ color: 'var(--purple-neon)', fontSize: '13px', borderBottom: '1px dotted #33452C', paddingBottom: '6px', marginBottom: '10px', fontWeight: 'bold' }}>
+                            <div className="text-retro" style={{ color: 'var(--purple-neon)', fontSize: '14.5px', borderBottom: '1px dotted #33452C', paddingBottom: '6px', marginBottom: '10px', fontWeight: 'bold' }}>
                               {card.title}
                             </div>
                             {card.isSplit ? (
@@ -685,7 +685,7 @@ export default function TelemetryWorkspace({ onBack }) {
                                 {card.subcategories.map((sub, sIdx) => (
                                   <div key={sIdx}>
                                     {sub.title && (
-                                      <div style={{ fontSize: '12.5px', textDecoration: 'underline', color: 'var(--yellow-neon)', marginBottom: '8px', fontWeight: 'bold' }}>
+                                      <div style={{ fontSize: '13.5px', textDecoration: 'underline', color: 'var(--yellow-neon)', marginBottom: '8px', fontWeight: 'bold' }}>
                                         {sub.title}
                                       </div>
                                     )}
