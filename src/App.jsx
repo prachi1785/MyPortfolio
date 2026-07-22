@@ -47,7 +47,7 @@ function App() {
       </div>
 
       {/* Main Desktop Window Frame */}
-      <div className="retro-desktop-window" style={{ width: '92%', maxWidth: '960px', height: '76vh', background: '#1E50B3', borderRadius: '12px', padding: '4px', boxSizing: 'border-box', border: '3.5px solid #1E50B3', position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 12px 32px rgba(30, 80, 179, 0.25)' }}>
+      <div className="retro-desktop-window" style={{ width: '92%', maxWidth: '1020px', height: '82vh', background: '#1E50B3', borderRadius: '12px', padding: '4px', boxSizing: 'border-box', border: '3.5px solid #1E50B3', position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 12px 32px rgba(30, 80, 179, 0.25)' }}>
         
         {/* Window Title Bar */}
         <div className="retro-window-header" style={{ height: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 12px', background: '#1E50B3', color: '#FFF', fontFamily: 'var(--font-title)', fontSize: '10px' }}>

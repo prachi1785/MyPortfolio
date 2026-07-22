@@ -127,34 +127,34 @@ export default function PixelArtBackground({ appState }) {
 
       {/* 9. Popup Alert Warning Box (Middle Left) */}
       {appState === 'TITLE' && showWarning && (
-        <div className="retro-warning-alert panel-cyan" style={{ position: 'absolute', bottom: '24%', left: '4%', width: '240px', background: '#ECEFF4', border: '3.5px solid #1E50B3', borderRadius: '8px', zIndex: 20, boxShadow: '4px 4px 0px #090314', pointerEvents: 'auto' }}>
+        <div className="retro-warning-alert panel-cyan" style={{ position: 'absolute', bottom: '24%', left: '4%', width: '300px', background: '#ECEFF4', border: '4px solid #1E50B3', borderRadius: '8px', zIndex: 20, boxShadow: '6px 6px 0px #090314', pointerEvents: 'auto' }}>
           
           {/* Warning header */}
-          <div style={{ background: '#1E50B3', color: '#FFF', padding: '4px 8px', fontSize: '9px', fontFamily: 'var(--font-title)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ background: '#1E50B3', color: '#FFF', padding: '6px 12px', fontSize: '11px', fontFamily: 'var(--font-title)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span>WARNING</span>
-            <button className="alert-close-btn" onClick={() => setShowWarning(false)} style={{ background: '#E03C3C', border: 'none', color: '#FFF', fontSize: '8px', padding: '1px 4px', cursor: 'pointer', borderRadius: '2px' }}>
+            <button className="alert-close-btn" onClick={() => setShowWarning(false)} style={{ background: '#E03C3C', border: 'none', color: '#FFF', fontSize: '9px', padding: '2px 6px', cursor: 'pointer', borderRadius: '2px', fontWeight: 'bold' }}>
               X
             </button>
           </div>
           
           {/* Warning Body */}
-          <div style={{ padding: '14px', textAlign: 'center', fontFamily: 'var(--font-title)' }}>
-            <div style={{ fontSize: '9px', color: '#102B66', lineHeight: '1.4', marginBottom: '14px' }}>
+          <div style={{ padding: '18px', textAlign: 'center', fontFamily: 'var(--font-title)' }}>
+            <div style={{ fontSize: '12px', color: '#102B66', lineHeight: '1.4', marginBottom: '16px', letterSpacing: '0.5px' }}>
               DO YOU WANT<br />TO GO BACK ?
             </div>
             {/* Yes/No bevel buttons */}
-            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-              <button onClick={() => setShowWarning(false)} style={{ padding: '4px 14px', fontSize: '9px', background: '#D8DEE9', border: '2px solid #4C566A', borderRadius: '4px', cursor: 'pointer', boxShadow: '1px 1px 0px #FFF inset' }}>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+              <button onClick={() => setShowWarning(false)} style={{ padding: '6px 18px', fontSize: '11px', background: '#D8DEE9', border: '2px solid #4C566A', borderRadius: '4px', cursor: 'pointer', boxShadow: '1px 1px 0px #FFF inset', fontFamily: 'var(--font-title)' }}>
                 Yes
               </button>
-              <button onClick={() => setShowWarning(false)} style={{ padding: '4px 14px', fontSize: '9px', background: '#D8DEE9', border: '2px solid #4C566A', borderRadius: '4px', cursor: 'pointer', boxShadow: '1px 1px 0px #FFF inset' }}>
+              <button onClick={() => setShowWarning(false)} style={{ padding: '6px 18px', fontSize: '11px', background: '#D8DEE9', border: '2px solid #4C566A', borderRadius: '4px', cursor: 'pointer', boxShadow: '1px 1px 0px #FFF inset', fontFamily: 'var(--font-title)' }}>
                 No
               </button>
             </div>
           </div>
           
           {/* Pointer cursor indicator over Warning Close */}
-          <div className="pixel-fly-cursor warning-pointer" style={{ position: 'absolute', top: '10px', right: '-4px', pointerEvents: 'none' }} />
+          <div className="pixel-fly-cursor warning-pointer" style={{ position: 'absolute', top: '12px', right: '-6px', pointerEvents: 'none' }} />
         </div>
       )}
 

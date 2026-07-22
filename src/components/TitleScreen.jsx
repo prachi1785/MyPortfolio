@@ -29,8 +29,24 @@ export default function TitleScreen({ onStart, isTransitioning }) {
         </button>
       </div>
 
+      {/* Header Info: Name & Taglines (Visible on Title Screen with White Outline Protection) */}
+      <div style={{ textAlign: 'center', marginBottom: '32px', zIndex: 15, padding: '0 20px' }}>
+        <div style={{ fontFamily: 'var(--font-title)', fontSize: '11px', color: '#1E50B3', textShadow: '2px 2px 0px #FFF, -2px -2px 0px #FFF, 2px -2px 0px #FFF, -2px 2px 0px #FFF', marginBottom: '4px', letterSpacing: '1px' }}>
+          HELLO, I'M
+        </div>
+        <h1 style={{ fontFamily: 'var(--font-title)', fontSize: '32px', color: '#1E50B3', margin: '0 0 10px 0', textShadow: '3px 3px 0px #FFF, -3px -3px 0px #FFF, 3px -3px 0px #FFF, -3px 3px 0px #FFF', letterSpacing: '2px', lineHeight: '1.2' }}>
+          ADITYA AGRAWAL
+        </h1>
+        <div style={{ fontFamily: 'var(--font-title)', fontSize: '10px', color: '#BF616A', textShadow: '1.5px 1.5px 0px #FFF, -1.5px -1.5px 0px #FFF, 1.5px -1.5px 0px #FFF, -1.5px 1.5px 0px #FFF', letterSpacing: '0.5px', marginBottom: '8px' }}>
+          FULL STACK DEVELOPER & BUSINESS ANALYST
+        </div>
+        <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 'bold', fontSize: '13px', color: '#2E3440', textShadow: '1px 1px 0px #FFF, -1px -1px 0px #FFF, 1px -1px 0px #FFF, -1px 1px 0px #FFF', maxWidth: '460px', margin: '0 auto', lineHeight: '1.4' }}>
+          Building digital experiences and solving real world problems with code and insight.
+        </p>
+      </div>
+
       {/* Large green START button in the center */}
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 15 }}>
         <button
           onClick={() => {
             playClickSound();
