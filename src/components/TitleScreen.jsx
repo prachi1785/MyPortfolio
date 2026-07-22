@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { playHoverSound, playClickSound, playStartSound, playBeep, startBgm, stopBgm } from '../utils/sound';
 
 export default function TitleScreen({ onStart, isTransitioning }) {
-  const [isMuted, setIsMuted] = useState(true); // default to muted to avoid auto-play blocking warnings
+  const [isMuted, setIsMuted] = useState(false); // starts unmuted so BGM fires on user click
 
   const toggleMute = () => {
     const nextMute = !isMuted;

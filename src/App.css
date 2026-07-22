@@ -1733,3 +1733,19 @@
   box-shadow: 1px 1px 0px #000;
 }
 
+/* Tabular skills custom styling */
+.retro-skills-table tbody tr:hover {
+  background: rgba(40, 206, 224, 0.15) !important;
+  color: #FFF !important;
+}
+
+.retro-skills-table th {
+  border-bottom: 2px solid #33452C;
+  font-weight: bold;
+}
+
+.retro-skills-table td {
+  border-bottom: 1px solid rgba(51, 69, 44, 0.15);
+}
+
+

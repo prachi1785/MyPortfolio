@@ -589,37 +589,65 @@ export default function TelemetryWorkspace({ onBack }) {
 
             {/* SKILLS TAB */}
             {activeTab === 'skills' && (
-              <div>
-                <h2 className="panel-header-title text-retro"><Zap size={18} /> Sector 0-3: Skill Path Tree</h2>
-                <p style={{ fontSize: '13.5px', marginBottom: '16px', color: 'var(--yellow-neon)', fontWeight: 'bold' }}>
-                  [OPERATOR INSTRUCTION: CLICK NODES TO ALLOCATE XP COINS AND UPGRADE LEVEL STATS]
+              <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <h2 className="panel-header-title text-retro"><Zap size={18} /> Sector 0-3: Skill Registry Table</h2>
+                <p style={{ fontSize: '12px', marginBottom: '12px', color: 'var(--yellow-neon)', fontWeight: 'bold' }}>
+                  [OPERATOR INSTRUCTION: CLICK UPGRADE ROW BUTTONS TO ALLOCATE XP COINS]
                 </p>
-                <div className="skills-tech-tree" style={{ maxHeight: '42vh', overflowY: 'auto', paddingRight: '8px' }}>
+                <div className="skills-tech-tree" style={{ flex: 1, maxHeight: '43vh', overflowY: 'auto', paddingRight: '8px' }}>
                   {skillCategories.map((category, catIdx) => (
-                    <div key={catIdx} className="skill-category-block" style={{ marginBottom: '24px' }}>
-                      <div className="category-title text-retro" style={{ color: 'var(--cyan-neon)', borderBottom: '2px solid #33452C', paddingBottom: '4px', marginBottom: '12px' }}>
-                        {category.title}
+                    <div key={catIdx} className="skill-category-block" style={{ marginBottom: '28px' }}>
+                      <div className="category-title text-retro" style={{ color: 'var(--cyan-neon)', borderBottom: '2px solid #33452C', paddingBottom: '6px', marginBottom: '12px', fontSize: '13px', fontWeight: 'bold' }}>
+                        🛡️ {category.title}
                       </div>
-                      <div className="skills-node-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '12px' }}>
-                        {category.skills.map((skill, skillIdx) => {
-                          const level = skillLevels[skill] || 4;
-                          return (
-                            <button 
-                              key={skillIdx} 
-                              className={`skill-node ${level >= 5 ? 'unlocked' : ''}`} 
-                              onClick={() => upgradeSkill(skill)}
-                              style={{ display: 'flex', flexDirection: 'column', padding: '10px', alignItems: 'center' }}
-                            >
-                              <div className="skill-node-name" style={{ fontSize: '10.5px', wordBreak: 'break-word', textAlign: 'center', marginBottom: '4px' }}>
-                                {skill}
-                              </div>
-                              <div className="skill-node-level" style={{ fontSize: '9px', opacity: 0.8 }}>
-                                LVL {level} / 5
-                              </div>
-                              {renderSegmentedBar(level, 5, 'react')}
-                            </button>
-                          );
-                        })}
+                      <div style={{ overflowX: 'auto' }}>
+                        <table className="retro-skills-table" style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-sans)', fontSize: '13.5px', color: '#D4DCFF', textAlign: 'left', border: '2px solid #33452C' }}>
+                          <thead>
+                            <tr style={{ background: '#1A132C', borderBottom: '2px solid #33452C', fontSize: '11.5px', fontFamily: 'var(--font-title)' }}>
+                              <th style={{ padding: '10px', color: 'var(--cyan-neon)' }}>SKILL NODE</th>
+                              <th style={{ padding: '10px', color: 'var(--cyan-neon)', textAlign: 'center', width: '90px' }}>LEVEL</th>
+                              <th style={{ padding: '10px', color: 'var(--cyan-neon)', textAlign: 'center', width: '140px' }}>MASTERY</th>
+                              <th style={{ padding: '10px', color: 'var(--cyan-neon)', textAlign: 'center', width: '100px' }}>XP ACTION</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {category.skills.map((skill, skillIdx) => {
+                              const level = skillLevels[skill] || 4;
+                              return (
+                                <tr key={skillIdx} style={{ borderBottom: '1px solid #1C1236', background: skillIdx % 2 === 0 ? 'rgba(28, 18, 54, 0.2)' : 'transparent' }}>
+                                  <td style={{ padding: '10px', fontWeight: 'bold' }}>{skill}</td>
+                                  <td style={{ padding: '10px', textAlign: 'center', fontFamily: 'var(--font-title)', fontSize: '9px', color: 'var(--yellow-neon)' }}>
+                                    LVL {level} / 5
+                                  </td>
+                                  <td style={{ padding: '10px', textAlign: 'center' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                      {renderSegmentedBar(level, 5, 'react')}
+                                    </div>
+                                  </td>
+                                  <td style={{ padding: '10px', textAlign: 'center' }}>
+                                    <button 
+                                      className="game-btn-action" 
+                                      onClick={() => upgradeSkill(skill)}
+                                      disabled={level >= 5}
+                                      style={{ 
+                                        padding: '4px 8px', 
+                                        fontSize: '8px', 
+                                        margin: '0 auto', 
+                                        display: 'block',
+                                        background: level >= 5 ? '#33452C' : 'var(--purple-neon)',
+                                        color: level >= 5 ? '#888' : '#FFF',
+                                        borderColor: '#000',
+                                        cursor: level >= 5 ? 'not-allowed' : 'pointer'
+                                      }}
+                                    >
+                                      {level >= 5 ? 'MAXED' : 'UPGRADE'}
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   ))}
